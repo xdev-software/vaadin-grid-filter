@@ -20,5 +20,6 @@ public class SingleValueNotRequiredComponentProvider<T, C extends Component & Ha
 	@Override
 	protected void handleBindingBuilder(final Binder.BindingBuilder<SingleValue<T>, T> bindingBuilder)
 	{
+		// No require is added
 	}
 }
