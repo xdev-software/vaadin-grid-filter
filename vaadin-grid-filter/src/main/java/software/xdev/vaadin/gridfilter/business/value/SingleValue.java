@@ -15,7 +15,7 @@ public class SingleValue<V> implements ValueContainer
 	}
 	
 	@SuppressWarnings("unchecked")
-	public void setValueUnsafe(final Object value)
+	public void setValueUnchecked(final Object value)
 	{
 		this.setValue((V)value);
 	}

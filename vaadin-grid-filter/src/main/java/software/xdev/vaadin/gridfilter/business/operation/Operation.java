@@ -14,7 +14,7 @@ public interface Operation<V extends ValueContainer>
 	boolean test(Object input, V filterValue);
 	
 	@SuppressWarnings("unchecked")
-	default boolean testUnchcked(final Object input, final Object filterValue)
+	default boolean testUnchecked(final Object input, final Object filterValue)
 	{
 		return this.test(input, (V)filterValue);
 	}

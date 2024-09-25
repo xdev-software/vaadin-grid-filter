@@ -46,7 +46,7 @@ public class EnumSingleValueComponentProvider extends DefaultTypeValueComponentP
 			binder,
 			comboBox,
 			SingleValue::getValue,
-			SingleValue::setValueUnsafe
+			SingleValue::setValueUnchecked
 		);
 		
 		return new TypeValueComponentData<>(binder, comboBox);
