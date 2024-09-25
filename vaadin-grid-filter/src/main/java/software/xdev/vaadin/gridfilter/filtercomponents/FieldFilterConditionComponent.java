@@ -1,4 +1,4 @@
-package software.xdev.vaadin.gridfilter;
+package software.xdev.vaadin.gridfilter.filtercomponents;
 
 import java.util.List;
 import java.util.Map;
@@ -11,13 +11,14 @@ import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.data.binder.Binder;
 
+import software.xdev.vaadin.gridfilter.FilterableField;
 import software.xdev.vaadin.gridfilter.business.operation.Operation;
 import software.xdev.vaadin.gridfilter.business.typevaluecomp.TypeValueComponentProvider;
 import software.xdev.vaadin.gridfilter.business.value.ValueContainer;
 import software.xdev.vaadin.gridfilter.business.value.reuse.ValueReUseAdapter;
 
 
-public class FieldFilterConditionComponent<T> extends HorizontalLayout
+public class FieldFilterConditionComponent<T> extends FilterComponent<T>
 {
 	protected final ComboBox<FilterableField<T, ?>> cbField = new ComboBox<>();
 	protected final ComboBox<Operation<?>> cbOperation = new ComboBox<>();
@@ -103,6 +104,7 @@ public class FieldFilterConditionComponent<T> extends HorizontalLayout
 		this.onValueUpdated.run();
 	}
 	
+	@Override
 	public boolean test(final T item)
 	{
 		if(this.cbField.isEmpty() || this.cbOperation.isEmpty() || this.refCurrentBinder.get() == null)
