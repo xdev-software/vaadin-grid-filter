@@ -16,7 +16,7 @@ public interface FilterComponentSupplier
 {
 	String display(); // TODO I18N
 	
-	<T> FilterComponent<T> create(
+	<T> FilterComponent<T, ?> create(
 		List<FilterableField<T, ?>> filterableFields,
 		Function<FilterableField<T, ?>, Map<Operation<?>, TypeValueComponentProvider<?>>> fieldDataResolver,
 		Map<Class<? extends ValueContainer>, Set<ValueReUseAdapter<?>>> valueReUseAdapters,

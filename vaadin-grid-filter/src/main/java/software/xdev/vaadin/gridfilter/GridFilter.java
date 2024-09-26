@@ -14,19 +14,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import com.vaadin.flow.component.AttachEvent;
-import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.datetimepicker.DateTimePicker;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.icon.VaadinIcon;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.BigDecimalField;
 import com.vaadin.flow.component.textfield.IntegerField;
@@ -48,80 +43,56 @@ import software.xdev.vaadin.gridfilter.business.typevaluecomp.single.SingleValue
 import software.xdev.vaadin.gridfilter.business.value.ValueContainer;
 import software.xdev.vaadin.gridfilter.business.value.reuse.SingleValueReUseAdapter;
 import software.xdev.vaadin.gridfilter.business.value.reuse.ValueReUseAdapter;
-import software.xdev.vaadin.gridfilter.filtercomponents.FieldFilterConditionComponentSupplier;
-import software.xdev.vaadin.gridfilter.filtercomponents.FilterComponent;
 import software.xdev.vaadin.gridfilter.filtercomponents.FilterComponentSupplier;
-import software.xdev.vaadin.gridfilter.filtercomponents.FilterORComponentSupplier;
+import software.xdev.vaadin.gridfilter.filtercomponents.block.FilterANDComponentSupplier;
+import software.xdev.vaadin.gridfilter.filtercomponents.block.FilterORComponentSupplier;
+import software.xdev.vaadin.gridfilter.filtercomponents.condition.FieldFilterConditionComponentSupplier;
 
 
 public class GridFilter<T> extends VerticalLayout
 {
-	private final List<Operation<?>> availableOperations = new ArrayList<>();
-	private final List<TypeValueComponentProvider<?>> availableTypeValueComponentProviders = new ArrayList<>();
-	private final Map<Class<? extends ValueContainer>, Set<ValueReUseAdapter<?>>> valueReUseAdapters = new HashMap<>();
-	private final List<FilterComponentSupplier> filterComponentSuppliers = new ArrayList<>();
-	private final List<FilterableField<T, ?>> filterableFields = new ArrayList<>();
+	protected final List<Operation<?>> availableOperations = new ArrayList<>();
+	protected final List<TypeValueComponentProvider<?>> availableTypeValueComponentProviders = new ArrayList<>();
+	protected final Map<Class<? extends ValueContainer>, Set<ValueReUseAdapter<?>>> valueReUseAdapters =
+		new HashMap<>();
+	protected final List<FilterComponentSupplier> filterComponentSuppliers = new ArrayList<>();
+	protected final List<FilterableField<T, ?>> filterableFields = new ArrayList<>();
 	
-	private final Map<Operation<?>, List<TypeValueComponentProvider<?>>> cacheOperationTypeValueComponents =
+	protected final Map<Operation<?>, List<TypeValueComponentProvider<?>>> cacheOperationTypeValueComponents =
 		Collections.synchronizedMap(new LinkedHashMap<>());
-	private final Map<FilterableField<T, ?>, Map<Operation<?>, TypeValueComponentProvider<?>>> cacheField =
+	protected final Map<FilterableField<T, ?>, Map<Operation<?>, TypeValueComponentProvider<?>>> cacheField =
 		Collections.synchronizedMap(new LinkedHashMap<>());
 	
-	private final Grid<T> grid;
-	private final List<FilterComponent<T>> fieldFilterConditionComponents = new ArrayList<>();
+	protected final Grid<T> grid;
 	
-	private final VerticalLayout filterConditionsContainer = new VerticalLayout();
-	private final HorizontalLayout hlAddFilterComponentButtons = new HorizontalLayout();
+	protected final FilterContainerComponent<T> filterContainerComponent =
+		new FilterContainerComponent<>(this::onFilterUpdate);
+	protected final AddFilterComponentsButtons addFilterComponentButtons = new AddFilterComponentsButtons();
 	
-	// TODO: AND / OR FILTERS
 	public GridFilter(final Grid<T> grid)
 	{
 		this.grid = grid;
 		
-		this.filterConditionsContainer.setPadding(false);
-		this.add(this.filterConditionsContainer);
-		
-		this.add(this.hlAddFilterComponentButtons);
+		this.add(this.filterContainerComponent, this.addFilterComponentButtons);
 		
 		this.setPadding(false);
-	}
-	
-	static class FieldFilterComponentWrapper<T> extends HorizontalLayout
-	{
-		public FieldFilterComponentWrapper(
-			final FilterComponent<T> component,
-			final BiConsumer<FieldFilterComponentWrapper<T>, FilterComponent<T>> onRemove)
-		{
-			final Button btnDelete = new Button(VaadinIcon.TRASH.create(), ev -> onRemove.accept(this, component));
-			btnDelete.addThemeVariants(ButtonVariant.LUMO_ERROR);
-			
-			this.add(component, btnDelete);
-		}
+		this.setSpacing(false);
 	}
 	
 	protected void addFilterComponent(final FilterComponentSupplier supplier)
 	{
-		final FilterComponent<T> newFilterConditionComponent = supplier.create(
+		this.filterContainerComponent.addFilterComponent(supplier.create(
 			this.filterableFields,
 			this::getForField,
 			this.valueReUseAdapters,
 			this.filterComponentSuppliers,
-			this::onFilterUpdate);
-		this.fieldFilterConditionComponents.add(newFilterConditionComponent);
-		
-		this.filterConditionsContainer.add(new FieldFilterComponentWrapper<>(
-			newFilterConditionComponent,
-			(self, c) -> {
-				this.fieldFilterConditionComponents.remove(c);
-				this.filterConditionsContainer.remove(self);
-				this.onFilterUpdate();
-			}));
+			this::onFilterUpdate));
 	}
 	
 	protected void onFilterUpdate()
 	{
-		this.grid.getListDataView()
-			.setFilter(item -> this.fieldFilterConditionComponents.stream().allMatch(c -> c.test(item)));
+		this.grid.getListDataView().setFilter(item ->
+			this.filterContainerComponent.getFilterComponents().stream().allMatch(c -> c.test(item)));
 	}
 	
 	@SuppressWarnings("java:S1452") // No
@@ -180,10 +151,7 @@ public class GridFilter<T> extends VerticalLayout
 	@Override
 	protected void onAttach(final AttachEvent attachEvent)
 	{
-		this.hlAddFilterComponentButtons.removeAll();
-		this.filterComponentSuppliers.stream()
-			.map(s -> new Button("Add " + s.display(), VaadinIcon.PLUS.create(), ev -> this.addFilterComponent(s)))
-			.forEach(this.hlAddFilterComponentButtons::add);
+		this.addFilterComponentButtons.update(this.filterComponentSuppliers, this::addFilterComponent);
 	}
 	
 	// region Config
@@ -301,6 +269,7 @@ public class GridFilter<T> extends VerticalLayout
 			.addValueReUseAdapter(new SingleValueReUseAdapter())
 			.addFilterComponentSuppliers(List.of(
 				new FieldFilterConditionComponentSupplier(),
-				new FilterORComponentSupplier()));
+				new FilterORComponentSupplier(),
+				new FilterANDComponentSupplier()));
 	}
 }
