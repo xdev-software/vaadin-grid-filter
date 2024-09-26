@@ -11,12 +11,14 @@ import software.xdev.vaadin.gridfilter.filtercomponents.FilterComponent;
 public class FilterContainerComponent<T> extends VerticalLayout
 {
 	protected final Runnable onValueUpdated;
+	protected final boolean shouldWrapperUseFullWidth;
 	
 	protected final List<FilterComponent<T, ?>> filterComponents = new ArrayList<>();
 	
-	public FilterContainerComponent(final Runnable onValueUpdated)
+	public FilterContainerComponent(final Runnable onValueUpdated, final boolean shouldWrapperUseFullWidth)
 	{
 		this.onValueUpdated = onValueUpdated;
+		this.shouldWrapperUseFullWidth = shouldWrapperUseFullWidth;
 		
 		this.setPadding(false);
 		
@@ -29,6 +31,7 @@ public class FilterContainerComponent<T> extends VerticalLayout
 		this.updateFilterConditionsContainerVisibility();
 		
 		this.add(new FilterComponentWrapper<>(
+			this.shouldWrapperUseFullWidth,
 			newFilterConditionComponent,
 			(self, c) -> {
 				this.filterComponents.remove(c);

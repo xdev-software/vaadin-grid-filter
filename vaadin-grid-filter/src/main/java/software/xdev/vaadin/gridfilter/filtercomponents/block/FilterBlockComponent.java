@@ -58,11 +58,11 @@ public class FilterBlockComponent<T> extends FilterComponent<T, HorizontalLayout
 		spBlockIdentifier.setMinWidth("2.4em");
 		spBlockIdentifier.getStyle().set("overflow-wrap", "anywhere");
 		
-		this.filterContainerComponent = new FilterContainerComponent<>(onValueUpdated);
+		this.filterContainerComponent = new FilterContainerComponent<>(onValueUpdated, true);
 		
 		final VerticalLayout vlMainContainer = new VerticalLayout();
 		vlMainContainer.setPadding(false);
-		vlMainContainer.setPadding(false);
+		vlMainContainer.setSpacing(false);
 		vlMainContainer.add(this.filterContainerComponent, this.addFilterComponentButtons);
 		
 		this.getContent().add(spBlockIdentifier, vlMainContainer);

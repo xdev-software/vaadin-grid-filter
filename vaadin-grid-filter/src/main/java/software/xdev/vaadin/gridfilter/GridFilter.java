@@ -66,7 +66,7 @@ public class GridFilter<T> extends VerticalLayout
 	protected final Grid<T> grid;
 	
 	protected final FilterContainerComponent<T> filterContainerComponent =
-		new FilterContainerComponent<>(this::onFilterUpdate);
+		new FilterContainerComponent<>(this::onFilterUpdate, false);
 	protected final AddFilterComponentsButtons addFilterComponentButtons = new AddFilterComponentsButtons();
 	
 	public GridFilter(final Grid<T> grid)
