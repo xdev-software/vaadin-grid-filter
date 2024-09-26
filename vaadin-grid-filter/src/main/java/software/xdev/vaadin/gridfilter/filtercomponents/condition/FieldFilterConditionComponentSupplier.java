@@ -23,6 +23,12 @@ public class FieldFilterConditionComponentSupplier implements FilterComponentSup
 	}
 	
 	@Override
+	public String serializationPrefix()
+	{
+		return "";
+	}
+	
+	@Override
 	public <T> FilterComponent<T, ?> create(
 		final List<FilterableField<T, ?>> filterableFields,
 		final Function<FilterableField<T, ?>, Map<Operation<?>, TypeValueComponentProvider<?>>> fieldDataResolver,

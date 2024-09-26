@@ -24,6 +24,12 @@ public class FilterANDComponentSupplier implements FilterComponentSupplier
 	}
 	
 	@Override
+	public String serializationPrefix()
+	{
+		return "_AND";
+	}
+	
+	@Override
 	public <T> FilterComponent<T, ?> create(
 		final List<FilterableField<T, ?>> filterableFields,
 		final Function<FilterableField<T, ?>, Map<Operation<?>, TypeValueComponentProvider<?>>> fieldDataResolver,
@@ -38,6 +44,7 @@ public class FilterANDComponentSupplier implements FilterComponentSupplier
 			filterComponentSuppliers,
 			onValueUpdated,
 			Stream::allMatch,
-			"AND");
+			"AND",
+			this::serializationPrefix);
 	}
 }

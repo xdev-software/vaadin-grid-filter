@@ -6,6 +6,7 @@ import java.util.Set;
 import java.util.function.BiPredicate;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 import com.vaadin.flow.component.AttachEvent;
@@ -21,17 +22,23 @@ import software.xdev.vaadin.gridfilter.business.operation.Operation;
 import software.xdev.vaadin.gridfilter.business.typevaluecomp.TypeValueComponentProvider;
 import software.xdev.vaadin.gridfilter.business.value.ValueContainer;
 import software.xdev.vaadin.gridfilter.business.value.reuse.ValueReUseAdapter;
+import software.xdev.vaadin.gridfilter.filtercomponents.FilterBlockComponentSerialization;
 import software.xdev.vaadin.gridfilter.filtercomponents.FilterComponent;
+import software.xdev.vaadin.gridfilter.filtercomponents.FilterComponentSerialization;
 import software.xdev.vaadin.gridfilter.filtercomponents.FilterComponentSupplier;
 
 
-public class FilterBlockComponent<T> extends FilterComponent<T, HorizontalLayout>
+@SuppressWarnings("java:S1948")
+public class FilterBlockComponent<T>
+	extends FilterComponent<T, HorizontalLayout>
+	implements FilterComponentSerialization
 {
 	protected final List<FilterableField<T, ?>> filterableFields;
 	protected final Function<FilterableField<T, ?>, Map<Operation<?>, TypeValueComponentProvider<?>>> fieldDataResolver;
 	protected final Map<Class<? extends ValueContainer>, Set<ValueReUseAdapter<?>>> valueReUseAdapters;
 	protected final List<FilterComponentSupplier> filterComponentSuppliers;
 	protected final Runnable onValueUpdated;
+	protected final Supplier<String> serializationPrefixSupplier;
 	
 	protected final BiPredicate<Stream<FilterComponent<T, ?>>, Predicate<FilterComponent<T, ?>>> testAggregate;
 	
@@ -45,7 +52,8 @@ public class FilterBlockComponent<T> extends FilterComponent<T, HorizontalLayout
 		final List<FilterComponentSupplier> filterComponentSuppliers,
 		final Runnable onValueUpdated,
 		final BiPredicate<Stream<FilterComponent<T, ?>>, Predicate<FilterComponent<T, ?>>> testAggregate,
-		final String identifierName)
+		final String identifierName,
+		final Supplier<String> serializationPrefixSupplier)
 	{
 		this.filterableFields = filterableFields;
 		this.fieldDataResolver = fieldDataResolver;
@@ -53,6 +61,7 @@ public class FilterBlockComponent<T> extends FilterComponent<T, HorizontalLayout
 		this.filterComponentSuppliers = filterComponentSuppliers;
 		this.onValueUpdated = onValueUpdated;
 		this.testAggregate = testAggregate;
+		this.serializationPrefixSupplier = serializationPrefixSupplier;
 		
 		final Span spBlockIdentifier = new Span(identifierName);
 		spBlockIdentifier.setMinWidth("2.4em");
@@ -75,20 +84,60 @@ public class FilterBlockComponent<T> extends FilterComponent<T, HorizontalLayout
 		this.getStyle().set("padding-right", "var(--lumo-space-xs)");
 	}
 	
-	protected void addFilterComponent(final FilterComponentSupplier supplier)
+	protected FilterComponent<T, ?> addFilterComponent(final FilterComponentSupplier supplier)
 	{
-		this.filterContainerComponent.addFilterComponent(supplier.create(
+		final FilterComponent<T, ?> filterConditionComponent = supplier.create(
 			this.filterableFields,
 			this.fieldDataResolver,
 			this.valueReUseAdapters,
 			this.filterComponentSuppliers,
-			this.onValueUpdated));
+			this.onValueUpdated);
+		this.filterContainerComponent.addFilterComponent(filterConditionComponent);
+		return filterConditionComponent;
 	}
 	
 	@Override
 	protected void onAttach(final AttachEvent attachEvent)
 	{
 		this.addFilterComponentButtons.update(this.filterComponentSuppliers, this::addFilterComponent);
+	}
+	
+	@Override
+	public String serialize()
+	{
+		if(this.filterContainerComponent.getFilterComponents().isEmpty())
+		{
+			return null;
+		}
+		
+		return this.serializationPrefixSupplier.get()
+			+ FilterBlockComponentSerialization.LIST_START
+			+ FilterBlockComponentSerialization.serializeFilterComponents(this.filterContainerComponent.getFilterComponents())
+			+ FilterBlockComponentSerialization.LIST_END;
+	}
+	
+	@Override
+	public void deserializeAndApply(final String input)
+	{
+		final String serializationPrefix = this.serializationPrefixSupplier.get();
+		// No content to process
+		if(input.length() < serializationPrefix.length() + 2
+			// Invalid start
+			|| !input.startsWith(serializationPrefix + FilterBlockComponentSerialization.LIST_START)
+			// Invalid end
+			|| !input.endsWith(String.valueOf(FilterBlockComponentSerialization.LIST_END)))
+		{
+			return;
+		}
+		
+		final List<String> subElements = FilterBlockComponentSerialization.deserializeSubElements(
+			// _OPERATOR(<content>)
+			input.substring(serializationPrefix.length() + 1, input.length() - 1));
+		
+		FilterBlockComponentSerialization.deserializeFilterComponents(
+			subElements,
+			this.filterComponentSuppliers,
+			this::addFilterComponent);
 	}
 	
 	@Override

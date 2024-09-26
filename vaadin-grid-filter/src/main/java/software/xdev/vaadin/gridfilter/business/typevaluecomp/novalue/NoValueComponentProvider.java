@@ -40,4 +40,16 @@ public class NoValueComponentProvider implements TypeValueComponentProvider<NoVa
 	{
 		return new TypeValueComponentData<>(new Binder<>(), null);
 	}
+	
+	@Override
+	public String serialize(final TypeValueComponentData<NoValue> typeValueComponentData)
+	{
+		return null;
+	}
+	
+	@Override
+	public void deserializeAndApply(final String input, final TypeValueComponentData<NoValue> typeValueComponentData)
+	{
+		// Nothing to do
+	}
 }

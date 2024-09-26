@@ -3,6 +3,7 @@ package software.xdev.vaadin.ui;
 import java.time.LocalDate;
 
 import com.vaadin.flow.component.AttachEvent;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
@@ -19,12 +20,18 @@ public class DemoView extends VerticalLayout
 	
 	public DemoView()
 	{
-		this.add(GridFilter.createDefault(this.grid)
+		final GridFilter<Person> filter = GridFilter.createDefault(this.grid)
 			.withSearchableField("id", Person::id, Integer.class)
 			.withSearchableField("firstName", Person::firstName, String.class)
 			.withSearchableField("birthday", Person::birthday, LocalDate.class)
 			.withSearchableField("married", Person::married, Boolean.class)
-			.withSearchableField("department", Person::department, Department.class));
+			.withSearchableField("department", Person::department, Department.class);
+		this.add(filter);
+		this.add(new Button("Serialize", ev -> System.out.println(filter.serialize())));
+		this.add(new Button(
+			"Fill in",
+			ev -> filter.deserializeAndApply(
+				"_OR(id = 1,_AND(birthday = 2024-09-26,firstName contains %2C%29%28%3D+)),id = 1")));
 		this.add(this.grid);
 	}
 	

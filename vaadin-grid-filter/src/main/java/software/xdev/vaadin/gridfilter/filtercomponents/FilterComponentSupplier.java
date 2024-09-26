@@ -16,6 +16,8 @@ public interface FilterComponentSupplier
 {
 	String display(); // TODO I18N
 	
+	String serializationPrefix();
+	
 	<T> FilterComponent<T, ?> create(
 		List<FilterableField<T, ?>> filterableFields,
 		Function<FilterableField<T, ?>, Map<Operation<?>, TypeValueComponentProvider<?>>> fieldDataResolver,

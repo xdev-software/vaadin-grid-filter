@@ -1,11 +1,17 @@
 package software.xdev.vaadin.gridfilter.filtercomponents.condition;
 
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
@@ -14,20 +20,27 @@ import com.vaadin.flow.data.binder.Binder;
 
 import software.xdev.vaadin.gridfilter.FilterableField;
 import software.xdev.vaadin.gridfilter.business.operation.Operation;
+import software.xdev.vaadin.gridfilter.business.typevaluecomp.TypeValueComponentData;
 import software.xdev.vaadin.gridfilter.business.typevaluecomp.TypeValueComponentProvider;
 import software.xdev.vaadin.gridfilter.business.value.ValueContainer;
 import software.xdev.vaadin.gridfilter.business.value.reuse.ValueReUseAdapter;
 import software.xdev.vaadin.gridfilter.filtercomponents.FilterComponent;
 
 
+@SuppressWarnings("java:S1948")
 public class FieldFilterConditionComponent<T> extends FilterComponent<T, HorizontalLayout>
 {
+	protected static final String SER_SEPARATOR = " ";
+	
 	protected final ComboBox<FilterableField<T, ?>> cbField = new ComboBox<>();
 	protected final ComboBox<Operation<?>> cbOperation = new ComboBox<>();
 	protected final HorizontalLayout operationDetailsContainer = new HorizontalLayout();
 	
 	protected Map<Operation<?>, TypeValueComponentProvider<?>> currentOperationsData;
 	protected final AtomicReference<Binder<? extends ValueContainer>> refCurrentBinder = new AtomicReference<>();
+	protected final AtomicReference<TypeValueComponentProvider<?>> refTypeValueComponentProvider =
+		new AtomicReference<>();
+	protected final AtomicReference<TypeValueComponentData<?>> refTypeValueComponentData = new AtomicReference<>();
 	
 	protected final Function<FilterableField<T, ?>, Map<Operation<?>, TypeValueComponentProvider<?>>> fieldDataResolver;
 	protected final Map<Class<? extends ValueContainer>, Set<ValueReUseAdapter<?>>> valueReUseAdapters;
@@ -45,21 +58,16 @@ public class FieldFilterConditionComponent<T> extends FilterComponent<T, Horizon
 		
 		this.cbField.setItemLabelGenerator(FilterableField::name);
 		this.cbField.setItems(filterableFields);
-		this.cbField.addValueChangeListener(ev -> this.onFieldChanged(ev.getValue()));
+		this.cbField.addValueChangeListener(ev -> this.onFieldChanged(ev.getValue(), ev.isFromClient()));
 		
-		this.getContent().add(this.cbField);
+		this.cbOperation.setItemLabelGenerator(Operation::identifier);
+		this.cbOperation.addValueChangeListener(ev -> this.onOperationChanged(ev.getValue(), ev.isFromClient()));
 		
-		this.cbOperation.setItemLabelGenerator(Operation::display);
-		this.cbOperation.addValueChangeListener(ev -> this.onOperationChanged(ev.getValue()));
-		
-		this.getContent().add(this.cbOperation);
-		
-		this.getContent().add(this.operationDetailsContainer);
-		
+		this.getContent().add(this.cbField, this.cbOperation, this.operationDetailsContainer);
 		this.getContent().setAlignItems(FlexComponent.Alignment.BASELINE);
 	}
 	
-	protected void onFieldChanged(final FilterableField<T, ?> value)
+	protected void onFieldChanged(final FilterableField<T, ?> value, final boolean isFromClient)
 	{
 		this.currentOperationsData =
 			Optional.ofNullable(value)
@@ -67,20 +75,27 @@ public class FieldFilterConditionComponent<T> extends FilterComponent<T, Horizon
 				.orElseGet(Map::of);
 		
 		this.cbOperation.setItems(this.currentOperationsData.keySet());
-		this.onValueUpdated.run();
+		this.runValueChanged(isFromClient);
 	}
 	
-	protected void onOperationChanged(final Operation<?> value)
+	protected void onOperationChanged(final Operation<?> value, final boolean isFromClient)
 	{
 		final Binder<? extends ValueContainer> prevBinder = this.refCurrentBinder.getAndSet(null);
 		final Optional<? extends ValueContainer> optPrevValueContainer = Optional.ofNullable(prevBinder)
 			.map(Binder::getBean);
 		this.operationDetailsContainer.removeAll();
+		this.refTypeValueComponentProvider.set(null);
+		this.refTypeValueComponentData.set(null);
 		
 		Optional.ofNullable(value)
 			.map(this.currentOperationsData::get)
+			.map(p -> {
+				this.refTypeValueComponentProvider.set(p);
+				return p;
+			})
 			.map(p -> p.getNewComponentDataWithDefaults(this.cbField.getValue().clazz()))
 			.ifPresent(componentData -> {
+				this.refTypeValueComponentData.set(componentData);
 				final Binder<? extends ValueContainer> binder = componentData.binder();
 				
 				// Check if for previous value
@@ -96,14 +111,94 @@ public class FieldFilterConditionComponent<T> extends FilterComponent<T, Horizon
 							}
 						}));
 				
-				binder.addValueChangeListener(ev2 -> this.onValueUpdated.run());
+				binder.addValueChangeListener(ev2 -> this.runValueChanged(ev2.isFromClient()));
 				
 				this.refCurrentBinder.set(binder);
 				
-				Optional.ofNullable(componentData.component()).ifPresent(this.operationDetailsContainer::add);
+				Optional.ofNullable(componentData.component())
+					.ifPresent(this.operationDetailsContainer::add);
 			});
 		
-		this.onValueUpdated.run();
+		this.runValueChanged(isFromClient);
+	}
+	
+	@Override
+	public String serialize()
+	{
+		final FilterableField<T, ?> field = this.cbField.getValue();
+		final Operation<?> operation = this.cbOperation.getValue();
+		final TypeValueComponentProvider<?> typeValueComponentProvider = this.refTypeValueComponentProvider.get();
+		final TypeValueComponentData<?> typeValueComponentData = this.refTypeValueComponentData.get();
+		
+		if(field == null || operation == null || typeValueComponentProvider == null || typeValueComponentData == null)
+		{
+			return null;
+		}
+		
+		try
+		{
+			return Stream.of(
+					field.identifier(),
+					operation.identifier(),
+					Optional.ofNullable(typeValueComponentProvider.serializeUnchecked(typeValueComponentData))
+						.map(s -> URLEncoder.encode(s, StandardCharsets.UTF_8))
+						.orElse(null)
+				)
+				.filter(Objects::nonNull)
+				.collect(Collectors.joining(SER_SEPARATOR));
+		}
+		catch(final Exception ex)
+		{
+			// Something was not serializable
+			return null;
+		}
+	}
+	
+	@Override
+	public void deserializeAndApply(final String input)
+	{
+		final String[] parts = input.split(SER_SEPARATOR);
+		if(parts.length < 2 || parts.length > 3)
+		{
+			// Invalid amount of parts -> Abort
+			return;
+		}
+		
+		try
+		{
+			// 0 -> Set field
+			this.cbField.getListDataView().getItems()
+				.filter(f -> Objects.equals(f.identifier(), parts[0]))
+				.findFirst()
+				.ifPresent(field -> {
+					this.cbField.setValue(field);
+					
+					// 1 -> Set operation
+					this.cbOperation.getListDataView().getItems()
+						.filter(o -> Objects.equals(o.identifier(), parts[1]))
+						.findFirst()
+						.ifPresent(operation -> {
+							this.cbOperation.setValue(operation);
+							
+							// 2 -> (if present) Set value
+							if(parts.length == 3)
+							{
+								final String decodedInput = URLDecoder.decode(parts[2], StandardCharsets.UTF_8);
+								
+								Optional.ofNullable(this.refTypeValueComponentProvider.get())
+									.ifPresent(p -> Optional.ofNullable(this.refTypeValueComponentData.get())
+										.ifPresent(data -> {
+											p.deserializeAndApplyUnchecked(decodedInput, data);
+											data.binder().refreshFields();
+										}));
+							}
+						});
+				});
+		}
+		catch(final Exception ex)
+		{
+			// Failed to restore state. This might be due to invalid input. Ignore it
+		}
 	}
 	
 	@Override
@@ -125,5 +220,13 @@ public class FieldFilterConditionComponent<T> extends FilterComponent<T, Horizon
 		return this.cbOperation.getValue().testUnchecked(
 			this.cbField.getValue().keyExtractor().apply(item),
 			data);
+	}
+	
+	protected void runValueChanged(final boolean isFromClient)
+	{
+		if(isFromClient)
+		{
+			this.onValueUpdated.run();
+		}
 	}
 }

@@ -43,13 +43,19 @@ import software.xdev.vaadin.gridfilter.business.typevaluecomp.single.SingleValue
 import software.xdev.vaadin.gridfilter.business.value.ValueContainer;
 import software.xdev.vaadin.gridfilter.business.value.reuse.SingleValueReUseAdapter;
 import software.xdev.vaadin.gridfilter.business.value.reuse.ValueReUseAdapter;
+import software.xdev.vaadin.gridfilter.filtercomponents.FilterBlockComponentSerialization;
+import software.xdev.vaadin.gridfilter.filtercomponents.FilterComponent;
+import software.xdev.vaadin.gridfilter.filtercomponents.FilterComponentSerialization;
 import software.xdev.vaadin.gridfilter.filtercomponents.FilterComponentSupplier;
 import software.xdev.vaadin.gridfilter.filtercomponents.block.FilterANDComponentSupplier;
 import software.xdev.vaadin.gridfilter.filtercomponents.block.FilterORComponentSupplier;
 import software.xdev.vaadin.gridfilter.filtercomponents.condition.FieldFilterConditionComponentSupplier;
 
 
-public class GridFilter<T> extends VerticalLayout
+@SuppressWarnings("java:S1948")
+public class GridFilter<T>
+	extends VerticalLayout
+	implements FilterComponentSerialization
 {
 	protected final List<Operation<?>> availableOperations = new ArrayList<>();
 	protected final List<TypeValueComponentProvider<?>> availableTypeValueComponentProviders = new ArrayList<>();
@@ -79,14 +85,16 @@ public class GridFilter<T> extends VerticalLayout
 		this.setSpacing(false);
 	}
 	
-	protected void addFilterComponent(final FilterComponentSupplier supplier)
+	public FilterComponent<T, ?> addFilterComponent(final FilterComponentSupplier supplier)
 	{
-		this.filterContainerComponent.addFilterComponent(supplier.create(
+		final FilterComponent<T, ?> filterComponent = supplier.create(
 			this.filterableFields,
 			this::getForField,
 			this.valueReUseAdapters,
 			this.filterComponentSuppliers,
-			this::onFilterUpdate));
+			this::onFilterUpdate);
+		this.filterContainerComponent.addFilterComponent(filterComponent);
+		return filterComponent;
 	}
 	
 	protected void onFilterUpdate()
@@ -152,6 +160,22 @@ public class GridFilter<T> extends VerticalLayout
 	protected void onAttach(final AttachEvent attachEvent)
 	{
 		this.addFilterComponentButtons.update(this.filterComponentSuppliers, this::addFilterComponent);
+	}
+	
+	@Override
+	public String serialize()
+	{
+		return FilterBlockComponentSerialization.serializeFilterComponents(this.filterContainerComponent.getFilterComponents());
+	}
+	
+	@Override
+	public void deserializeAndApply(final String input)
+	{
+		FilterBlockComponentSerialization.deserializeFilterComponents(
+			FilterBlockComponentSerialization.deserializeSubElements(input),
+			this.filterComponentSuppliers,
+			this::addFilterComponent);
+		this.onFilterUpdate();
 	}
 	
 	// region Config
@@ -257,14 +281,39 @@ public class GridFilter<T> extends VerticalLayout
 			.addTypeValueComponents(List.of(
 				new NoValueComponentProvider(),
 				new EnumSingleValueComponentProvider(),
-				new SingleValueNotRequiredComponentProvider<>(Boolean.class, Checkbox::new),
-				new SingleValueComponentProvider<>(String.class, TextField::new),
-				new SingleValueComponentProvider<>(Double.class, NumberField::new),
-				new SingleValueComponentProvider<>(Integer.class, IntegerField::new),
-				new SingleValueComponentProvider<>(BigDecimal.class, BigDecimalField::new),
-				new SingleValueComponentProvider<>(LocalDate.class, DatePicker::new),
-				new SingleValueComponentProvider<>(LocalDateTime.class, DateTimePicker::new),
-				new SingleValueComponentProvider<>(LocalTime.class, TimePicker::new)
+				new SingleValueNotRequiredComponentProvider<>(
+					Boolean.class,
+					Checkbox::new,
+					b -> b ? "1" : "0",
+					"1"::equals),
+				new SingleValueComponentProvider<>(
+					String.class,
+					TextField::new,
+					s -> s),
+				new SingleValueComponentProvider<>(
+					Double.class,
+					NumberField::new,
+					Double::parseDouble),
+				new SingleValueComponentProvider<>(
+					Integer.class,
+					IntegerField::new,
+					Integer::parseInt),
+				new SingleValueComponentProvider<>(
+					BigDecimal.class,
+					BigDecimalField::new,
+					BigDecimal::new),
+				new SingleValueComponentProvider<>(
+					LocalDate.class,
+					DatePicker::new,
+					LocalDate::parse),
+				new SingleValueComponentProvider<>(
+					LocalDateTime.class,
+					DateTimePicker::new,
+					LocalDateTime::parse),
+				new SingleValueComponentProvider<>(
+					LocalTime.class,
+					TimePicker::new,
+					LocalTime::parse)
 			))
 			.addValueReUseAdapter(new SingleValueReUseAdapter())
 			.addFilterComponentSuppliers(List.of(

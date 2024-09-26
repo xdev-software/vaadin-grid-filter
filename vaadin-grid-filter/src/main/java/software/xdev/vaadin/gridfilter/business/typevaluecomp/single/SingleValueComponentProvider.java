@@ -2,6 +2,7 @@ package software.xdev.vaadin.gridfilter.business.typevaluecomp.single;
 
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 import com.vaadin.flow.component.Component;
@@ -17,11 +18,27 @@ public class SingleValueComponentProvider<T, C extends Component & HasValue<?, T
 	extends DefaultTypeValueComponentProvider<SingleValue<T>>
 {
 	protected final Supplier<C> componentSupplier;
+	protected final Function<T, String> serializeFunc;
+	protected final Function<String, T> deserializeFunc;
 	
-	public SingleValueComponentProvider(final Class<T> clazz, final Supplier<C> componentSupplier)
+	public SingleValueComponentProvider(
+		final Class<T> clazz,
+		final Supplier<C> componentSupplier,
+		final Function<String, T> deserializeFunc)
+	{
+		this(clazz, componentSupplier, Object::toString, deserializeFunc);
+	}
+	
+	public SingleValueComponentProvider(
+		final Class<T> clazz,
+		final Supplier<C> componentSupplier,
+		final Function<T, String> serializeFunc,
+		final Function<String, T> deserializeFunc)
 	{
 		super(Set.of(clazz));
 		this.componentSupplier = Objects.requireNonNull(componentSupplier);
+		this.serializeFunc = Objects.requireNonNull(serializeFunc);
+		this.deserializeFunc = Objects.requireNonNull(deserializeFunc);
 	}
 	
 	@Override
@@ -52,5 +69,24 @@ public class SingleValueComponentProvider<T, C extends Component & HasValue<?, T
 	protected void handleBindingBuilder(final Binder.BindingBuilder<SingleValue<T>, T> bindingBuilder)
 	{
 		bindingBuilder.asRequired();
+	}
+	
+	@Override
+	public String serialize(final TypeValueComponentData<SingleValue<T>> typeValueComponentData)
+	{
+		final SingleValue<T> bean = typeValueComponentData.binder().getBean();
+		if(bean == null || !bean.isValid())
+		{
+			return null;
+		}
+		return this.serializeFunc.apply(bean.getValue());
+	}
+	
+	@Override
+	public void deserializeAndApply(
+		final String input,
+		final TypeValueComponentData<SingleValue<T>> typeValueComponentData)
+	{
+		typeValueComponentData.binder().getBean().setValue(this.deserializeFunc.apply(input));
 	}
 }

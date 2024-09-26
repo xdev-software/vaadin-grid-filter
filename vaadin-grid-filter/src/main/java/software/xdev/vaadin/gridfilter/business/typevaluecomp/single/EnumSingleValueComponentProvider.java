@@ -1,6 +1,7 @@
 package software.xdev.vaadin.gridfilter.business.typevaluecomp.single;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import com.vaadin.flow.component.HasValue;
@@ -61,5 +62,31 @@ public class EnumSingleValueComponentProvider extends DefaultTypeValueComponentP
 		binder.forField(field)
 			.asRequired()
 			.bind(getter, setter);
+	}
+	
+	@Override
+	public String serialize(final TypeValueComponentData<SingleValue<? extends Enum<?>>> typeValueComponentData)
+	{
+		return typeValueComponentData.binder().getBean().getValue().name();
+	}
+	
+	@Override
+	public void deserializeAndApply(
+		final String input,
+		final TypeValueComponentData<SingleValue<? extends Enum<?>>> typeValueComponentData)
+	{
+		if(typeValueComponentData.component() instanceof final ComboBox<?> comboBox)
+		{
+			comboBox.getListDataView().getItems()
+				.filter(Enum.class::isInstance)
+				.map(Enum.class::cast)
+				.filter(e -> Objects.equals(e.name(), input))
+				.findFirst()
+				.ifPresent(v -> {
+					final Binder<SingleValue<? extends Enum<?>>> binder = typeValueComponentData.binder();
+					binder.getBean().setValueUnchecked(v);
+					binder.refreshFields();
+				});
+		}
 	}
 }

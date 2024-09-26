@@ -29,4 +29,22 @@ public interface TypeValueComponentProvider<V extends ValueContainer>
 		componentData.binder().setBean(this.createEmptyValueContainer());
 		return componentData;
 	}
+	
+	String serialize(TypeValueComponentData<V> typeValueComponentData);
+	
+	@SuppressWarnings("unchecked")
+	default String serializeUnchecked(final TypeValueComponentData<?> typeValueComponentData)
+	{
+		return this.serialize((TypeValueComponentData<V>)typeValueComponentData);
+	}
+	
+	void deserializeAndApply(String input, TypeValueComponentData<V> typeValueComponentData);
+	
+	@SuppressWarnings("unchecked")
+	default void deserializeAndApplyUnchecked(
+		final String input,
+		final TypeValueComponentData<?> typeValueComponentData)
+	{
+		this.deserializeAndApply(input, (TypeValueComponentData<V>)typeValueComponentData);
+	}
 }

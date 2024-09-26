@@ -29,7 +29,7 @@ public abstract class SingleValueOperation<C> implements Operation<SingleValue<C
 	}
 	
 	@Override
-	public String display()
+	public String identifier()
 	{
 		return this.display;
 	}

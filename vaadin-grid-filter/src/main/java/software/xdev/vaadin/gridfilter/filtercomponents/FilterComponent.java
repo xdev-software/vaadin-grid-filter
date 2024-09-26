@@ -8,6 +8,6 @@ import com.vaadin.flow.component.Composite;
 
 public abstract class FilterComponent<T, C extends Component>
 	extends Composite<C>
-	implements Predicate<T>
+	implements Predicate<T>, FilterComponentSerialization
 {
 }

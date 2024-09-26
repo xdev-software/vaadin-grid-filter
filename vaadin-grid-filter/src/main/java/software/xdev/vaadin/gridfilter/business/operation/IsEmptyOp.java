@@ -18,7 +18,7 @@ public class IsEmptyOp implements Operation<NoValue>
 	}
 	
 	@Override
-	public String display()
+	public String identifier()
 	{
 		return "is empty";
 	}

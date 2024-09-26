@@ -9,7 +9,7 @@ public interface Operation<V extends ValueContainer>
 	
 	boolean canHandle(Class<?> clazz);
 	
-	String display();
+	String identifier();
 	
 	boolean test(Object input, V filterValue);
 	
