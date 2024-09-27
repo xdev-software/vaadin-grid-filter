@@ -3,6 +3,7 @@ package software.xdev.vaadin.gridfilter.filtercomponents;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -17,6 +18,7 @@ public final class FilterBlockComponentSerialization
 	{
 		return filterComponents.stream()
 			.map(FilterComponent::serialize)
+			.filter(Objects::nonNull)
 			.collect(Collectors.joining(String.valueOf(LIST_SEPARATOR)));
 	}
 	

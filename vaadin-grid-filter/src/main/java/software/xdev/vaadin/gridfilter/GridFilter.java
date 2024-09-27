@@ -18,6 +18,8 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import com.vaadin.flow.component.AttachEvent;
+import com.vaadin.flow.component.ComponentEvent;
+import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.datetimepicker.DateTimePicker;
@@ -28,6 +30,7 @@ import com.vaadin.flow.component.textfield.IntegerField;
 import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.timepicker.TimePicker;
+import com.vaadin.flow.shared.Registration;
 
 import software.xdev.vaadin.gridfilter.business.operation.ContainsOp;
 import software.xdev.vaadin.gridfilter.business.operation.EqualsOp;
@@ -101,6 +104,28 @@ public class GridFilter<T>
 	{
 		this.grid.getListDataView().setFilter(item ->
 			this.filterContainerComponent.getFilterComponents().stream().allMatch(c -> c.test(item)));
+		
+		this.fireEvent(new FilterChangedEvent<>(this, false));
+	}
+	
+	@SuppressWarnings({"unchecked", "rawtypes"})
+	public Registration addFilterChangedListener(final ComponentEventListener<FilterChangedEvent<T>> listener)
+	{
+		return this.addListener(FilterChangedEvent.class, (ComponentEventListener)listener);
+	}
+	
+	public static class FilterChangedEvent<T> extends ComponentEvent<GridFilter<T>>
+	{
+		public FilterChangedEvent(final GridFilter<T> source, final boolean fromClient)
+		{
+			super(source, fromClient);
+		}
+	}
+	
+	@Override
+	protected void onAttach(final AttachEvent attachEvent)
+	{
+		this.addFilterComponentButtons.update(this.filterComponentSuppliers, this::addFilterComponent);
 	}
 	
 	@SuppressWarnings("java:S1452") // No
@@ -157,15 +182,10 @@ public class GridFilter<T>
 	}
 	
 	@Override
-	protected void onAttach(final AttachEvent attachEvent)
-	{
-		this.addFilterComponentButtons.update(this.filterComponentSuppliers, this::addFilterComponent);
-	}
-	
-	@Override
 	public String serialize()
 	{
-		return FilterBlockComponentSerialization.serializeFilterComponents(this.filterContainerComponent.getFilterComponents());
+		return FilterBlockComponentSerialization.serializeFilterComponents(
+			this.filterContainerComponent.getFilterComponents());
 	}
 	
 	@Override

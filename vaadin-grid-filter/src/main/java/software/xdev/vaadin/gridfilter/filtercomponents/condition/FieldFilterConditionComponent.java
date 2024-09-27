@@ -139,7 +139,7 @@ public class FieldFilterConditionComponent<T> extends FilterComponent<T, Horizon
 		{
 			return Stream.of(
 					field.identifier(),
-					operation.identifier(),
+					URLEncoder.encode(operation.identifier(), StandardCharsets.UTF_8),
 					Optional.ofNullable(typeValueComponentProvider.serializeUnchecked(typeValueComponentData))
 						.map(s -> URLEncoder.encode(s, StandardCharsets.UTF_8))
 						.orElse(null)
@@ -174,8 +174,9 @@ public class FieldFilterConditionComponent<T> extends FilterComponent<T, Horizon
 					this.cbField.setValue(field);
 					
 					// 1 -> Set operation
+					final String decOperation = URLDecoder.decode(parts[1], StandardCharsets.UTF_8);
 					this.cbOperation.getListDataView().getItems()
-						.filter(o -> Objects.equals(o.identifier(), parts[1]))
+						.filter(o -> Objects.equals(o.identifier(), decOperation))
 						.findFirst()
 						.ifPresent(operation -> {
 							this.cbOperation.setValue(operation);
@@ -183,12 +184,11 @@ public class FieldFilterConditionComponent<T> extends FilterComponent<T, Horizon
 							// 2 -> (if present) Set value
 							if(parts.length == 3)
 							{
-								final String decodedInput = URLDecoder.decode(parts[2], StandardCharsets.UTF_8);
-								
+								final String decValue = URLDecoder.decode(parts[2], StandardCharsets.UTF_8);
 								Optional.ofNullable(this.refTypeValueComponentProvider.get())
 									.ifPresent(p -> Optional.ofNullable(this.refTypeValueComponentData.get())
 										.ifPresent(data -> {
-											p.deserializeAndApplyUnchecked(decodedInput, data);
+											p.deserializeAndApplyUnchecked(decValue, data);
 											data.binder().refreshFields();
 										}));
 							}
