@@ -67,6 +67,7 @@ public class FilterContainerComponent<T> extends VerticalLayout
 		this.setVisible(!this.filterComponents.isEmpty());
 	}
 	
+	@SuppressWarnings("java:S1452")
 	public List<FilterComponent<T, ?>> getFilterComponents()
 	{
 		return this.filterComponents;

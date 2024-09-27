@@ -9,6 +9,7 @@ import software.xdev.vaadin.gridfilter.model.Person;
 import software.xdev.vaadin.gridfilter.queryparameter.GridFilterQueryParameterAdapter;
 
 
+@SuppressWarnings("java:S1948")
 @Route(QueryParameterDemo.NAV)
 public class QueryParameterDemo extends AbstractDemo implements AfterNavigationObserver
 {

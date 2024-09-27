@@ -36,7 +36,7 @@ public interface FilterComponentSupplier
 	
 	boolean canCreateNested();
 	
-	@SuppressWarnings("java:S1452")
+	@SuppressWarnings({"java:S1452", "java:S107"})
 	<T> FilterComponent<T, ?> create(
 		GridFilterLocalizationConfig localizationConfig,
 		List<FilterableField<T, ?>> filterableFields,
