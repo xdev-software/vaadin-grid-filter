@@ -257,7 +257,8 @@ public class GridFilter<T>
 		return this.invalidateCache();
 	}
 	
-	public GridFilter<T> addTypeValueComponents(final Collection<TypeValueComponentProvider<?>> typeValueComponentProviders)
+	public GridFilter<T> addTypeValueComponents(
+		final Collection<TypeValueComponentProvider<?>> typeValueComponentProviders)
 	{
 		this.availableTypeValueComponentProviders.addAll(typeValueComponentProviders);
 		return this.invalidateCache();

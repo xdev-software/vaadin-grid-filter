@@ -147,7 +147,8 @@ public class FilterBlockComponent<T>
 		
 		return this.serializationPrefixSupplier.get()
 			+ FilterBlockComponentSerialization.LIST_START
-			+ FilterBlockComponentSerialization.serializeFilterComponents(this.filterContainerComponent.getFilterComponents())
+			+ FilterBlockComponentSerialization.serializeFilterComponents(
+			this.filterContainerComponent.getFilterComponents())
 			+ FilterBlockComponentSerialization.LIST_END;
 	}
 	
