@@ -26,10 +26,11 @@ this.add(filter, grid);
 To get started further it's recommended to have a look at the [demo](./vaadin-grid-filter-demo).<br/>
 A description how to get it running can be found [below](#run-the-demo).
 
+> [!IMPORTANT]
+> This component is designed for "in memory" filtering of small to medium sized amounts of data.
+
 > [!NOTE]
-> This component is designed for "in memory" filtering of small to medium sized amounts of data.<br/>
-> Filtering multiple thousand items with multiple complex filtering coditions can drastically impact performance and make the UI unresponsive!<br/> In these cases it's recommended to use backend filtering solutions like Database Queries or [ElasticSearch](https://en.wikipedia.org/wiki/Elasticsearch) in combination with a customized UI search framework.<br/>
-> If you need help in implementing these feel free to [contact us](#support).
+> Filtering multiple thousand items with complex filtering conditions can drastically impact performance and make the UI unresponsive!<br/> In these cases it's recommended to use backend filtering solutions like database queries or search engines like [ElasticSearch](https://en.wikipedia.org/wiki/Elasticsearch) in combination with a customized UI search framework. If you need help in implementing these feel free to [contact us](#support).
 
 ## Installation
 [Installation guide for the latest release](https://github.com/xdev-software/vaadin-grid-filter/releases/latest#Installation)
