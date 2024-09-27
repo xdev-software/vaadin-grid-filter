@@ -30,7 +30,8 @@ public class DemoView extends VerticalLayout implements AfterNavigationObserver
 			.withFilterableField("First Name", Person::firstName, String.class)
 			.withFilterableField("Birthday", Person::birthday, LocalDate.class)
 			.withFilterableField("Married", Person::married, Boolean.class)
-			.withFilterableField("Department", Person::department, Department.class);
+			.withFilterableField("Department", Person::department, Department.class)
+			.withMaxNestedDepth(5);
 		
 		final Details details = new Details("Filter data");
 		details.addThemeVariants(DetailsVariant.FILLED);
