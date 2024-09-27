@@ -21,6 +21,7 @@ import java.util.Set;
 import java.util.function.Function;
 
 import software.xdev.vaadin.gridfilter.FilterableField;
+import software.xdev.vaadin.gridfilter.GridFilterLocalizationConfig;
 import software.xdev.vaadin.gridfilter.business.operation.Operation;
 import software.xdev.vaadin.gridfilter.business.typevaluecomp.TypeValueComponentProvider;
 import software.xdev.vaadin.gridfilter.business.value.ValueContainer;
@@ -32,9 +33,9 @@ import software.xdev.vaadin.gridfilter.filtercomponents.FilterComponentSupplier;
 public class FieldFilterConditionComponentSupplier implements FilterComponentSupplier
 {
 	@Override
-	public String display()
+	public String displayKey()
 	{
-		return "condition";
+		return GridFilterLocalizationConfig.CONDITION;
 	}
 	
 	@Override
@@ -51,6 +52,7 @@ public class FieldFilterConditionComponentSupplier implements FilterComponentSup
 	
 	@Override
 	public <T> FilterComponent<T, ?> create(
+		final GridFilterLocalizationConfig localizationConfig,
 		final List<FilterableField<T, ?>> filterableFields,
 		final Function<FilterableField<T, ?>, Map<Operation<?>, TypeValueComponentProvider<?>>> fieldDataResolver,
 		final Map<Class<? extends ValueContainer>, Set<ValueReUseAdapter<?>>> valueReUseAdapters,
@@ -60,6 +62,7 @@ public class FieldFilterConditionComponentSupplier implements FilterComponentSup
 		final int maxNestedDepth)
 	{
 		return new FieldFilterConditionComponent<>(
+			localizationConfig,
 			filterableFields,
 			fieldDataResolver,
 			valueReUseAdapters,

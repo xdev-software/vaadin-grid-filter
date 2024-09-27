@@ -33,6 +33,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import software.xdev.vaadin.gridfilter.AddFilterComponentsButtons;
 import software.xdev.vaadin.gridfilter.FilterContainerComponent;
 import software.xdev.vaadin.gridfilter.FilterableField;
+import software.xdev.vaadin.gridfilter.GridFilterLocalizationConfig;
 import software.xdev.vaadin.gridfilter.business.operation.Operation;
 import software.xdev.vaadin.gridfilter.business.typevaluecomp.TypeValueComponentProvider;
 import software.xdev.vaadin.gridfilter.business.value.ValueContainer;
@@ -49,6 +50,7 @@ public class FilterBlockComponent<T>
 	extends FilterComponent<T, HorizontalLayout>
 	implements FilterComponentSerialization
 {
+	protected final GridFilterLocalizationConfig localizationConfig;
 	protected final List<FilterableField<T, ?>> filterableFields;
 	protected final Function<FilterableField<T, ?>, Map<Operation<?>, TypeValueComponentProvider<?>>> fieldDataResolver;
 	protected final Map<Class<? extends ValueContainer>, Set<ValueReUseAdapter<?>>> valueReUseAdapters;
@@ -65,17 +67,19 @@ public class FilterBlockComponent<T>
 	
 	@SuppressWarnings("java:S107")
 	public FilterBlockComponent(
+		final GridFilterLocalizationConfig localizationConfig,
 		final List<FilterableField<T, ?>> filterableFields,
 		final Function<FilterableField<T, ?>, Map<Operation<?>, TypeValueComponentProvider<?>>> fieldDataResolver,
 		final Map<Class<? extends ValueContainer>, Set<ValueReUseAdapter<?>>> valueReUseAdapters,
 		final List<FilterComponentSupplier> filterComponentSuppliers,
 		final Runnable onValueUpdated,
 		final BiPredicate<Stream<FilterComponent<T, ?>>, Predicate<FilterComponent<T, ?>>> testAggregate,
-		final String identifierName,
+		final String displayKey,
 		final Supplier<String> serializationPrefixSupplier,
 		final int nestedDepth,
 		final int maxNestedDepth)
 	{
+		this.localizationConfig = localizationConfig;
 		this.filterableFields = filterableFields;
 		this.fieldDataResolver = fieldDataResolver;
 		this.valueReUseAdapters = valueReUseAdapters;
@@ -86,7 +90,7 @@ public class FilterBlockComponent<T>
 		this.nestedDepth = nestedDepth;
 		this.maxNestedDepth = maxNestedDepth;
 		
-		final Span spBlockIdentifier = new Span(identifierName);
+		final Span spBlockIdentifier = new Span(displayKey);
 		spBlockIdentifier.addClassNames(FilterBlockComponentStyles.BLOCK_IDENTIFIER);
 		
 		this.filterContainerComponent = new FilterContainerComponent<>(onValueUpdated, true);
@@ -110,6 +114,7 @@ public class FilterBlockComponent<T>
 	protected FilterComponent<T, ?> addFilterComponent(final FilterComponentSupplier supplier)
 	{
 		final FilterComponent<T, ?> filterConditionComponent = supplier.create(
+			this.localizationConfig,
 			this.filterableFields,
 			this.fieldDataResolver,
 			this.valueReUseAdapters,
@@ -125,6 +130,7 @@ public class FilterBlockComponent<T>
 	protected void onAttach(final AttachEvent attachEvent)
 	{
 		this.addFilterComponentButtons.update(
+			this.localizationConfig,
 			this.filterComponentSuppliers,
 			this::addFilterComponent,
 			this.nestedDepth,

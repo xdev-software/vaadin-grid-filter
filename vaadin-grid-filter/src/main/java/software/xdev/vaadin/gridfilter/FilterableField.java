@@ -20,17 +20,15 @@ import java.util.function.Function;
 
 public record FilterableField<I, T>(
 	String name,
+	String identifier,
 	Function<I, T> keyExtractor,
 	Class<T> clazz)
 {
-	public String identifier()
+	public FilterableField
 	{
-		return this.name().chars()
-			.filter(c -> Character.isLetter(c) || Character.isDigit(c))
-			.collect(
-				() -> new StringBuilder(this.name().length()),
-				StringBuilder::appendCodePoint,
-				StringBuilder::append)
-			.toString();
+		if(this.name().chars().anyMatch(c -> !Character.isLetter(c) && !Character.isDigit(c)))
+		{
+			throw new IllegalArgumentException("identifier needs to be alphanumeric");
+		}
 	}
 }

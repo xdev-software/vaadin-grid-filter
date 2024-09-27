@@ -15,6 +15,7 @@
  */
 package software.xdev.vaadin.gridfilter.business.operation;
 
+import software.xdev.vaadin.gridfilter.GridFilterLocalizationConfig;
 import software.xdev.vaadin.gridfilter.business.value.SingleValue;
 
 
@@ -22,7 +23,7 @@ public class ContainsOp extends SingleValueOperation<String>
 {
 	public ContainsOp()
 	{
-		super(String.class, "contains");
+		super(String.class, "contains", GridFilterLocalizationConfig.OP_CONTAINS);
 	}
 	
 	@Override

@@ -18,15 +18,16 @@ package software.xdev.vaadin.gridfilter.filtercomponents.block;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
+import software.xdev.vaadin.gridfilter.GridFilterLocalizationConfig;
 import software.xdev.vaadin.gridfilter.filtercomponents.FilterComponent;
 
 
 public class FilterANDComponentSupplier extends FilterBlockComponentSupplier
 {
 	@Override
-	public String display()
+	public String displayKey()
 	{
-		return "AND";
+		return GridFilterLocalizationConfig.BLOCK_AND;
 	}
 	
 	@Override

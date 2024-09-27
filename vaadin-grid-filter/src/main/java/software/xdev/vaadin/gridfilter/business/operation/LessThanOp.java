@@ -15,6 +15,7 @@
  */
 package software.xdev.vaadin.gridfilter.business.operation;
 
+import software.xdev.vaadin.gridfilter.GridFilterLocalizationConfig;
 import software.xdev.vaadin.gridfilter.business.value.SingleValue;
 
 
@@ -23,7 +24,7 @@ public class LessThanOp extends SingleValueComparableOperation
 {
 	public LessThanOp()
 	{
-		super("<");
+		super("<", GridFilterLocalizationConfig.OP_LESS_THAN);
 	}
 	
 	@SuppressWarnings("unchecked")

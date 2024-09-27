@@ -23,11 +23,13 @@ import software.xdev.vaadin.gridfilter.business.value.SingleValue;
 public abstract class SingleValueOperation<C> implements Operation<SingleValue<C>>
 {
 	protected final Class<C> supportedClass;
-	protected final String display; // TODO: I18N System like Grid Exporter
+	protected final String identifier;
+	protected final String display;
 	
-	protected SingleValueOperation(final Class<C> supported, final String display)
+	protected SingleValueOperation(final Class<C> supported, final String identifier, final String display)
 	{
 		this.supportedClass = Objects.requireNonNull(supported);
+		this.identifier = Objects.requireNonNull(identifier);
 		this.display = Objects.requireNonNull(display);
 	}
 	
@@ -45,6 +47,12 @@ public abstract class SingleValueOperation<C> implements Operation<SingleValue<C
 	
 	@Override
 	public String identifier()
+	{
+		return this.identifier;
+	}
+	
+	@Override
+	public String displayKey()
 	{
 		return this.display;
 	}

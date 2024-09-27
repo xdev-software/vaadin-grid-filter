@@ -86,8 +86,8 @@ public class GridFilter<T>
 		new HashMap<>();
 	protected final List<FilterComponentSupplier> filterComponentSuppliers = new ArrayList<>();
 	protected final List<FilterableField<T, ?>> filterableFields = new ArrayList<>();
-	
 	protected int maxNestedDepth = 10;
+	protected GridFilterLocalizationConfig localizationConfig = new GridFilterLocalizationConfig();
 	
 	protected final Map<Operation<?>, List<TypeValueComponentProvider<?>>> cacheOperationTypeValueComponents =
 		Collections.synchronizedMap(new LinkedHashMap<>());
@@ -116,6 +116,7 @@ public class GridFilter<T>
 	public FilterComponent<T, ?> addFilterComponent(final FilterComponentSupplier supplier)
 	{
 		final FilterComponent<T, ?> filterComponent = supplier.create(
+			this.localizationConfig,
 			this.filterableFields,
 			this::getForField,
 			this.valueReUseAdapters,
@@ -153,6 +154,7 @@ public class GridFilter<T>
 	protected void onAttach(final AttachEvent attachEvent)
 	{
 		this.addFilterComponentButtons.update(
+			this.localizationConfig,
 			this.filterComponentSuppliers,
 			this::addFilterComponent,
 			START_DEPTH,
@@ -313,7 +315,17 @@ public class GridFilter<T>
 		final Function<T, S> keyExtractor,
 		final Class<S> clazz)
 	{
-		this.filterableFields.add(new FilterableField<>(name, keyExtractor, clazz));
+		final String identifier
+		return this.withFilterableField(name, null, keyExtractor, clazz);
+	}
+	
+	public <S> GridFilter<T> withFilterableField(
+		final String name,
+		final String identifier,
+		final Function<T, S> keyExtractor,
+		final Class<S> clazz)
+	{
+		this.filterableFields.add(new FilterableField<>(name, identifier, keyExtractor, clazz));
 		return this;
 	}
 	
@@ -324,6 +336,12 @@ public class GridFilter<T>
 			throw new IllegalArgumentException("Invalid depth");
 		}
 		this.maxNestedDepth = maxNestedDepth;
+		return this;
+	}
+	
+	public GridFilter<T> withLocalizationConfig(final GridFilterLocalizationConfig localizationConfig)
+	{
+		this.localizationConfig = localizationConfig;
 		return this;
 	}
 	

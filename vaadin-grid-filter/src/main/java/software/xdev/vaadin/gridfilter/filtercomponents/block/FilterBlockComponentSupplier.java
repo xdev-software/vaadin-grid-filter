@@ -8,6 +8,7 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import software.xdev.vaadin.gridfilter.FilterableField;
+import software.xdev.vaadin.gridfilter.GridFilterLocalizationConfig;
 import software.xdev.vaadin.gridfilter.business.operation.Operation;
 import software.xdev.vaadin.gridfilter.business.typevaluecomp.TypeValueComponentProvider;
 import software.xdev.vaadin.gridfilter.business.value.ValueContainer;
@@ -18,12 +19,6 @@ import software.xdev.vaadin.gridfilter.filtercomponents.FilterComponentSupplier;
 
 public abstract class FilterBlockComponentSupplier implements FilterComponentSupplier
 {
-	@Override
-	public String display()
-	{
-		return "AND";
-	}
-	
 	@Override
 	public boolean canCreateNested()
 	{
@@ -36,6 +31,7 @@ public abstract class FilterBlockComponentSupplier implements FilterComponentSup
 	
 	@Override
 	public <T> FilterComponent<T, ?> create(
+		final GridFilterLocalizationConfig localizationConfig,
 		final List<FilterableField<T, ?>> filterableFields,
 		final Function<FilterableField<T, ?>, Map<Operation<?>, TypeValueComponentProvider<?>>> fieldDataResolver,
 		final Map<Class<? extends ValueContainer>, Set<ValueReUseAdapter<?>>> valueReUseAdapters,
@@ -45,13 +41,14 @@ public abstract class FilterBlockComponentSupplier implements FilterComponentSup
 		final int maxNestedDepth)
 	{
 		return new FilterBlockComponent<>(
+			localizationConfig,
 			filterableFields,
 			fieldDataResolver,
 			valueReUseAdapters,
 			filterComponentSuppliers,
 			onValueUpdated,
 			this::testAggregate,
-			this.display(),
+			this.displayKey(),
 			this::serializationPrefix,
 			nestedDepth,
 			maxNestedDepth);

@@ -18,9 +18,9 @@ package software.xdev.vaadin.gridfilter.business.operation;
 @SuppressWarnings("rawtypes")
 public abstract class SingleValueComparableOperation extends SingleValueOperation<Comparable>
 {
-	protected SingleValueComparableOperation(final String display)
+	protected SingleValueComparableOperation(final String identifier, final String display)
 	{
-		super(Comparable.class, display);
+		super(Comparable.class, identifier, display);
 	}
 	
 	@Override

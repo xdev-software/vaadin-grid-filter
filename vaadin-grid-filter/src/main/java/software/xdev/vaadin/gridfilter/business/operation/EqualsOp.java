@@ -17,6 +17,7 @@ package software.xdev.vaadin.gridfilter.business.operation;
 
 import java.util.Objects;
 
+import software.xdev.vaadin.gridfilter.GridFilterLocalizationConfig;
 import software.xdev.vaadin.gridfilter.business.value.SingleValue;
 
 
@@ -24,7 +25,7 @@ public class EqualsOp extends SingleValueOperation<Object>
 {
 	public EqualsOp()
 	{
-		super(Object.class, "=");
+		super(Object.class, "=", GridFilterLocalizationConfig.OP_EQUALS);
 	}
 	
 	@Override

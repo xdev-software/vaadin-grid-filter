@@ -15,6 +15,7 @@
  */
 package software.xdev.vaadin.gridfilter.business.operation;
 
+import software.xdev.vaadin.gridfilter.GridFilterLocalizationConfig;
 import software.xdev.vaadin.gridfilter.business.value.NoValue;
 
 
@@ -36,6 +37,12 @@ public class IsEmptyOp implements Operation<NoValue>
 	public String identifier()
 	{
 		return "is empty";
+	}
+	
+	@Override
+	public String displayKey()
+	{
+		return GridFilterLocalizationConfig.OP_IS_EMPTY;
 	}
 	
 	@Override

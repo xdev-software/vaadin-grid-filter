@@ -34,6 +34,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.data.binder.Binder;
 
 import software.xdev.vaadin.gridfilter.FilterableField;
+import software.xdev.vaadin.gridfilter.GridFilterLocalizationConfig;
 import software.xdev.vaadin.gridfilter.business.operation.Operation;
 import software.xdev.vaadin.gridfilter.business.typevaluecomp.TypeValueComponentData;
 import software.xdev.vaadin.gridfilter.business.typevaluecomp.TypeValueComponentProvider;
@@ -63,6 +64,7 @@ public class FieldFilterConditionComponent<T> extends FilterComponent<T, Horizon
 	protected final Runnable onValueUpdated;
 	
 	public FieldFilterConditionComponent(
+		final GridFilterLocalizationConfig localizationConfig,
 		final List<FilterableField<T, ?>> filterableFields,
 		final Function<FilterableField<T, ?>, Map<Operation<?>, TypeValueComponentProvider<?>>> fieldDataResolver,
 		final Map<Class<? extends ValueContainer>, Set<ValueReUseAdapter<?>>> valueReUseAdapters,
@@ -77,7 +79,7 @@ public class FieldFilterConditionComponent<T> extends FilterComponent<T, Horizon
 		this.cbField.addValueChangeListener(ev -> this.onFieldChanged(ev.getValue(), ev.isFromClient()));
 		this.cbField.addClassNames(FilterFieldConditionComponentStyles.CB_FIELD);
 		
-		this.cbOperation.setItemLabelGenerator(Operation::identifier);
+		this.cbOperation.setItemLabelGenerator(op -> localizationConfig.getTranslation(op.displayKey(), this));
 		this.cbOperation.addValueChangeListener(ev -> this.onOperationChanged(ev.getValue(), ev.isFromClient()));
 		this.cbOperation.addClassNames(FilterFieldConditionComponentStyles.CB_OPERATION);
 		

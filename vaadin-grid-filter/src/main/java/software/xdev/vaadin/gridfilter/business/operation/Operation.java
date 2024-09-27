@@ -26,6 +26,8 @@ public interface Operation<V extends ValueContainer>
 	
 	String identifier();
 	
+	String displayKey();
+	
 	boolean test(Object input, V filterValue);
 	
 	@SuppressWarnings("unchecked")
