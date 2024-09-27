@@ -33,10 +33,15 @@ public interface FilterComponentSupplier
 	
 	String serializationPrefix();
 	
+	boolean canCreateNested();
+	
+	@SuppressWarnings("java:S1452")
 	<T> FilterComponent<T, ?> create(
 		List<FilterableField<T, ?>> filterableFields,
 		Function<FilterableField<T, ?>, Map<Operation<?>, TypeValueComponentProvider<?>>> fieldDataResolver,
 		Map<Class<? extends ValueContainer>, Set<ValueReUseAdapter<?>>> valueReUseAdapters,
 		List<FilterComponentSupplier> filterComponentSuppliers,
-		Runnable onValueUpdated);
+		Runnable onValueUpdated,
+		int nestedDepth,
+		int maxNestedDepth);
 }

@@ -54,12 +54,15 @@ public class FilterBlockComponent<T>
 	protected final List<FilterComponentSupplier> filterComponentSuppliers;
 	protected final Runnable onValueUpdated;
 	protected final Supplier<String> serializationPrefixSupplier;
+	protected final int nestedDepth;
+	protected final int maxNestedDepth;
 	
 	protected final BiPredicate<Stream<FilterComponent<T, ?>>, Predicate<FilterComponent<T, ?>>> testAggregate;
 	
 	protected final FilterContainerComponent<T> filterContainerComponent;
 	protected final AddFilterComponentsButtons addFilterComponentButtons = new AddFilterComponentsButtons();
 	
+	@SuppressWarnings("java:S107")
 	public FilterBlockComponent(
 		final List<FilterableField<T, ?>> filterableFields,
 		final Function<FilterableField<T, ?>, Map<Operation<?>, TypeValueComponentProvider<?>>> fieldDataResolver,
@@ -68,7 +71,9 @@ public class FilterBlockComponent<T>
 		final Runnable onValueUpdated,
 		final BiPredicate<Stream<FilterComponent<T, ?>>, Predicate<FilterComponent<T, ?>>> testAggregate,
 		final String identifierName,
-		final Supplier<String> serializationPrefixSupplier)
+		final Supplier<String> serializationPrefixSupplier,
+		final int nestedDepth,
+		final int maxNestedDepth)
 	{
 		this.filterableFields = filterableFields;
 		this.fieldDataResolver = fieldDataResolver;
@@ -77,10 +82,12 @@ public class FilterBlockComponent<T>
 		this.onValueUpdated = onValueUpdated;
 		this.testAggregate = testAggregate;
 		this.serializationPrefixSupplier = serializationPrefixSupplier;
+		this.nestedDepth = nestedDepth;
+		this.maxNestedDepth = maxNestedDepth;
 		
 		final Span spBlockIdentifier = new Span(identifierName);
 		spBlockIdentifier.setMinWidth("2.5em");
-		spBlockIdentifier.getStyle().set("overflow-wrap", "anywhere");
+		spBlockIdentifier.getStyle().set("overflow-wrap", "break-word");
 		
 		this.filterContainerComponent = new FilterContainerComponent<>(onValueUpdated, true);
 		
@@ -107,7 +114,9 @@ public class FilterBlockComponent<T>
 			this.fieldDataResolver,
 			this.valueReUseAdapters,
 			this.filterComponentSuppliers,
-			this.onValueUpdated);
+			this.onValueUpdated,
+			this.nestedDepth + 1,
+			this.maxNestedDepth);
 		this.filterContainerComponent.addFilterComponent(filterConditionComponent);
 		return filterConditionComponent;
 	}
@@ -115,7 +124,11 @@ public class FilterBlockComponent<T>
 	@Override
 	protected void onAttach(final AttachEvent attachEvent)
 	{
-		this.addFilterComponentButtons.update(this.filterComponentSuppliers, this::addFilterComponent);
+		this.addFilterComponentButtons.update(
+			this.filterComponentSuppliers,
+			this::addFilterComponent,
+			this.nestedDepth,
+			this.maxNestedDepth);
 	}
 	
 	@Override

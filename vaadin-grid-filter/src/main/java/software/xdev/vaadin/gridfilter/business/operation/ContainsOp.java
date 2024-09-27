@@ -28,10 +28,10 @@ public class ContainsOp extends SingleValueOperation<String>
 	@Override
 	public boolean testTyped(final String input, final SingleValue<String> filterValue)
 	{
-		if(input == null)
+		if(input == null || filterValue.getValue() == null)
 		{
 			return false;
 		}
-		return input.contains(filterValue.getValue());
+		return input.toLowerCase().contains(filterValue.getValue().toLowerCase());
 	}
 }

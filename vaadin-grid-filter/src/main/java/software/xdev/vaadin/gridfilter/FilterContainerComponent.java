@@ -36,6 +36,7 @@ public class FilterContainerComponent<T> extends VerticalLayout
 		this.shouldWrapperUseFullWidth = shouldWrapperUseFullWidth;
 		
 		this.setPadding(false);
+		this.setSpacing(false);
 		
 		this.updateFilterConditionsContainerVisibility();
 	}

@@ -83,6 +83,8 @@ public class GridFilter<T>
 	protected final List<FilterComponentSupplier> filterComponentSuppliers = new ArrayList<>();
 	protected final List<FilterableField<T, ?>> filterableFields = new ArrayList<>();
 	
+	protected int maxNestedDepth = 10;
+	
 	protected final Map<Operation<?>, List<TypeValueComponentProvider<?>>> cacheOperationTypeValueComponents =
 		Collections.synchronizedMap(new LinkedHashMap<>());
 	protected final Map<FilterableField<T, ?>, Map<Operation<?>, TypeValueComponentProvider<?>>> cacheField =
@@ -104,6 +106,7 @@ public class GridFilter<T>
 		this.setSpacing(false);
 	}
 	
+	@SuppressWarnings("java:S1452")
 	public FilterComponent<T, ?> addFilterComponent(final FilterComponentSupplier supplier)
 	{
 		final FilterComponent<T, ?> filterComponent = supplier.create(
@@ -111,7 +114,9 @@ public class GridFilter<T>
 			this::getForField,
 			this.valueReUseAdapters,
 			this.filterComponentSuppliers,
-			this::onFilterUpdate);
+			this::onFilterUpdate,
+			1,
+			this.maxNestedDepth);
 		this.filterContainerComponent.addFilterComponent(filterComponent);
 		return filterComponent;
 	}
@@ -141,7 +146,11 @@ public class GridFilter<T>
 	@Override
 	protected void onAttach(final AttachEvent attachEvent)
 	{
-		this.addFilterComponentButtons.update(this.filterComponentSuppliers, this::addFilterComponent);
+		this.addFilterComponentButtons.update(
+			this.filterComponentSuppliers,
+			this::addFilterComponent,
+			1,
+			this.maxNestedDepth);
 	}
 	
 	@SuppressWarnings("java:S1452") // No
@@ -299,6 +308,16 @@ public class GridFilter<T>
 		final Class<S> clazz)
 	{
 		this.filterableFields.add(new FilterableField<>(name, keyExtractor, clazz));
+		return this;
+	}
+	
+	public GridFilter<T> withMaxNestedDepth(final int maxNestedDepth)
+	{
+		if(maxNestedDepth < 1)
+		{
+			throw new IllegalArgumentException("Invalid depth");
+		}
+		this.maxNestedDepth = maxNestedDepth;
 		return this;
 	}
 	

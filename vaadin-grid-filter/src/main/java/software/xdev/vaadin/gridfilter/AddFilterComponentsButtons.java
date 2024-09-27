@@ -30,10 +30,13 @@ public class AddFilterComponentsButtons extends HorizontalLayout
 {
 	public void update(
 		final Collection<FilterComponentSupplier> filterComponentSuppliers,
-		final Consumer<FilterComponentSupplier> onAddButtonClicked)
+		final Consumer<FilterComponentSupplier> onAddButtonClicked,
+		final int nestedDepth,
+		final int maxNestedDepth)
 	{
 		this.removeAll();
 		filterComponentSuppliers.stream()
+			.filter(s -> nestedDepth < maxNestedDepth || !s.canCreateNested())
 			.map(s -> {
 				final Button btn =
 					new Button(s.display(), VaadinIcon.PLUS.create(), ev -> onAddButtonClicked.accept(s));
