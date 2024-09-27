@@ -310,13 +310,26 @@ public class GridFilter<T>
 		return this;
 	}
 	
+	/**
+	 * @apiNote This method should not be used if name is dynamic (e.g. translated).<br/>In this case use
+	 * {@link #withFilterableField(String, String, Function, Class)}
+	 */
 	public <S> GridFilter<T> withFilterableField(
 		final String name,
 		final Function<T, S> keyExtractor,
 		final Class<S> clazz)
 	{
-		final String identifier
-		return this.withFilterableField(name, null, keyExtractor, clazz);
+		return this.withFilterableField(
+			name,
+			name.chars()
+				.filter(c -> Character.isLetter(c) || Character.isDigit(c))
+				.collect(
+					() -> new StringBuilder(name.length()),
+					StringBuilder::appendCodePoint,
+					StringBuilder::append)
+				.toString(),
+			keyExtractor,
+			clazz);
 	}
 	
 	public <S> GridFilter<T> withFilterableField(
