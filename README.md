@@ -10,7 +10,7 @@ A Vaadin Flow component for filtering Grids.
 
 ![demo](assets/demo.png)
 
-# Usage
+## Usage
 
 Here is a very simple example how the GridFilter can be used:
 ```java
