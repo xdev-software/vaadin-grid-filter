@@ -36,9 +36,20 @@ public class GridFilterQueryParameterAdapter
 	
 	public GridFilterQueryParameterAdapter(final GridFilter<?> gridFilter, final String queryParamKey)
 	{
+		this(gridFilter, queryParamKey, true);
+	}
+	
+	public GridFilterQueryParameterAdapter(
+		final GridFilter<?> gridFilter,
+		final String queryParamKey,
+		final boolean attachUpdateListener)
+	{
 		this.gridFilter = Objects.requireNonNull(gridFilter);
 		this.queryParamKey = Objects.requireNonNull(queryParamKey);
-		this.addQueryParamUpdateListener();
+		if(attachUpdateListener)
+		{
+			this.addQueryParamUpdateListener();
+		}
 	}
 	
 	protected void addQueryParamUpdateListener()

@@ -90,7 +90,7 @@ public class FilterBlockComponent<T>
 		this.nestedDepth = nestedDepth;
 		this.maxNestedDepth = maxNestedDepth;
 		
-		final Span spBlockIdentifier = new Span(displayKey);
+		final Span spBlockIdentifier = new Span(localizationConfig.getTranslation(displayKey, this));
 		spBlockIdentifier.addClassNames(FilterBlockComponentStyles.BLOCK_IDENTIFIER);
 		
 		this.filterContainerComponent = new FilterContainerComponent<>(onValueUpdated, true);

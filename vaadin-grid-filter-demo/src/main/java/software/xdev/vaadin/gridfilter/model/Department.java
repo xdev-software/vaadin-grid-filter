@@ -1,4 +1,4 @@
-package software.xdev.vaadin.model;
+package software.xdev.vaadin.gridfilter.model;
 
 public enum Department
 {

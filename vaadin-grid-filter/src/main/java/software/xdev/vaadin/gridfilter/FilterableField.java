@@ -15,6 +15,7 @@
  */
 package software.xdev.vaadin.gridfilter;
 
+import java.util.Objects;
 import java.util.function.Function;
 
 
@@ -26,7 +27,11 @@ public record FilterableField<I, T>(
 {
 	public FilterableField
 	{
-		if(this.name().chars().anyMatch(c -> !Character.isLetter(c) && !Character.isDigit(c)))
+		Objects.requireNonNull(name);
+		Objects.requireNonNull(identifier);
+		Objects.requireNonNull(keyExtractor);
+		Objects.requireNonNull(clazz);
+		if(identifier.chars().anyMatch(c -> !Character.isLetter(c) && !Character.isDigit(c)))
 		{
 			throw new IllegalArgumentException("identifier needs to be alphanumeric");
 		}

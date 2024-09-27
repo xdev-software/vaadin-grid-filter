@@ -1,4 +1,4 @@
-package software.xdev.vaadin.model;
+package software.xdev.vaadin.gridfilter.model;
 
 import java.time.LocalDate;
 import java.util.List;
