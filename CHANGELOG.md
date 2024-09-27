@@ -4,7 +4,7 @@ _Reworked component_
 * New customizable UI, including
   * nested filters (AND, OR, NOT)
   * customizable operations (=,>,<,contains,is empty)
-  * support for multiple value type
+  * support for multiple value types
     * can easily be bound with Vaadin components
 * Improved support for QueryParameters
 * Better translation support
