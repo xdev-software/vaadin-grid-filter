@@ -66,6 +66,7 @@ import software.xdev.vaadin.gridfilter.filtercomponents.FilterComponent;
 import software.xdev.vaadin.gridfilter.filtercomponents.FilterComponentSerialization;
 import software.xdev.vaadin.gridfilter.filtercomponents.FilterComponentSupplier;
 import software.xdev.vaadin.gridfilter.filtercomponents.block.FilterANDComponentSupplier;
+import software.xdev.vaadin.gridfilter.filtercomponents.block.FilterNOTComponentSupplier;
 import software.xdev.vaadin.gridfilter.filtercomponents.block.FilterORComponentSupplier;
 import software.xdev.vaadin.gridfilter.filtercomponents.condition.FieldFilterConditionComponentSupplier;
 
@@ -292,7 +293,7 @@ public class GridFilter<T>
 		return this;
 	}
 	
-	public <S> GridFilter<T> withSearchableField(
+	public <S> GridFilter<T> withFilterableField(
 		final String name,
 		final Function<T, S> keyExtractor,
 		final Class<S> clazz)
@@ -319,7 +320,7 @@ public class GridFilter<T>
 				new SingleValueNotRequiredComponentProvider<>(
 					Boolean.class,
 					Checkbox::new,
-					b -> b ? "1" : "0",
+					b -> Boolean.TRUE.equals(b) ? "1" : "0",
 					"1"::equals),
 				new SingleValueComponentProvider<>(
 					String.class,
@@ -354,6 +355,7 @@ public class GridFilter<T>
 			.addFilterComponentSuppliers(List.of(
 				new FieldFilterConditionComponentSupplier(),
 				new FilterORComponentSupplier(),
-				new FilterANDComponentSupplier()));
+				new FilterANDComponentSupplier(),
+				new FilterNOTComponentSupplier()));
 	}
 }

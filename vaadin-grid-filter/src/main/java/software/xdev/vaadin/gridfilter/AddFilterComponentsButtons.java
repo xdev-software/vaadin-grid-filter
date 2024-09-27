@@ -19,6 +19,7 @@ import java.util.Collection;
 import java.util.function.Consumer;
 
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
@@ -33,7 +34,12 @@ public class AddFilterComponentsButtons extends HorizontalLayout
 	{
 		this.removeAll();
 		filterComponentSuppliers.stream()
-			.map(s -> new Button(s.display(), VaadinIcon.PLUS.create(), ev -> onAddButtonClicked.accept(s)))
+			.map(s -> {
+				final Button btn =
+					new Button(s.display(), VaadinIcon.PLUS.create(), ev -> onAddButtonClicked.accept(s));
+				btn.addThemeVariants(ButtonVariant.LUMO_SMALL);
+				return btn;
+			})
 			.forEach(this::add);
 	}
 }

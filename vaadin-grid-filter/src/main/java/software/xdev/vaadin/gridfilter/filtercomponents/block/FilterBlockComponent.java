@@ -79,7 +79,7 @@ public class FilterBlockComponent<T>
 		this.serializationPrefixSupplier = serializationPrefixSupplier;
 		
 		final Span spBlockIdentifier = new Span(identifierName);
-		spBlockIdentifier.setMinWidth("2.4em");
+		spBlockIdentifier.setMinWidth("2.5em");
 		spBlockIdentifier.getStyle().set("overflow-wrap", "anywhere");
 		
 		this.filterContainerComponent = new FilterContainerComponent<>(onValueUpdated, true);
@@ -99,6 +99,7 @@ public class FilterBlockComponent<T>
 		this.getStyle().set("padding-right", "var(--lumo-space-xs)");
 	}
 	
+	@SuppressWarnings("java:S1452")
 	protected FilterComponent<T, ?> addFilterComponent(final FilterComponentSupplier supplier)
 	{
 		final FilterComponent<T, ?> filterConditionComponent = supplier.create(
