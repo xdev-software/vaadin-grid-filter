@@ -38,6 +38,7 @@ import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.datetimepicker.DateTimePicker;
+import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.BigDecimalField;
@@ -72,10 +73,13 @@ import software.xdev.vaadin.gridfilter.filtercomponents.condition.FieldFilterCon
 
 
 @SuppressWarnings("java:S1948")
+@CssImport(GridFilterStyles.LOCATION)
 public class GridFilter<T>
 	extends VerticalLayout
 	implements FilterComponentSerialization
 {
+	protected static final int START_DEPTH = 1;
+	
 	protected final List<Operation<?>> availableOperations = new ArrayList<>();
 	protected final List<TypeValueComponentProvider<?>> availableTypeValueComponentProviders = new ArrayList<>();
 	protected final Map<Class<? extends ValueContainer>, Set<ValueReUseAdapter<?>>> valueReUseAdapters =
@@ -104,6 +108,8 @@ public class GridFilter<T>
 		
 		this.setPadding(false);
 		this.setSpacing(false);
+		
+		this.addClassNames(GridFilterStyles.GRID_FILTER);
 	}
 	
 	@SuppressWarnings("java:S1452")
@@ -115,7 +121,7 @@ public class GridFilter<T>
 			this.valueReUseAdapters,
 			this.filterComponentSuppliers,
 			this::onFilterUpdate,
-			1,
+			START_DEPTH,
 			this.maxNestedDepth);
 		this.filterContainerComponent.addFilterComponent(filterComponent);
 		return filterComponent;
@@ -149,7 +155,7 @@ public class GridFilter<T>
 		this.addFilterComponentButtons.update(
 			this.filterComponentSuppliers,
 			this::addFilterComponent,
-			1,
+			START_DEPTH,
 			this.maxNestedDepth);
 	}
 	
@@ -313,7 +319,7 @@ public class GridFilter<T>
 	
 	public GridFilter<T> withMaxNestedDepth(final int maxNestedDepth)
 	{
-		if(maxNestedDepth < 1)
+		if(maxNestedDepth < START_DEPTH)
 		{
 			throw new IllegalArgumentException("Invalid depth");
 		}

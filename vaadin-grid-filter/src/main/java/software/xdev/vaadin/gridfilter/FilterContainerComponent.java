@@ -18,11 +18,14 @@ package software.xdev.vaadin.gridfilter;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 import software.xdev.vaadin.gridfilter.filtercomponents.FilterComponent;
 
 
+@SuppressWarnings("java:S1948")
+@CssImport(GridFilterStyles.LOCATION)
 public class FilterContainerComponent<T> extends VerticalLayout
 {
 	protected final Runnable onValueUpdated;
@@ -39,6 +42,7 @@ public class FilterContainerComponent<T> extends VerticalLayout
 		this.setSpacing(false);
 		
 		this.updateFilterConditionsContainerVisibility();
+		this.addClassNames(GridFilterStyles.FILTER_CONTAINER);
 	}
 	
 	public void addFilterComponent(final FilterComponent<T, ?> newFilterConditionComponent)

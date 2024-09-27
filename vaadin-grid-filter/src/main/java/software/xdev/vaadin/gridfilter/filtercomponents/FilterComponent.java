@@ -19,8 +19,12 @@ import java.util.function.Predicate;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Composite;
+import com.vaadin.flow.component.dependency.CssImport;
+
+import software.xdev.vaadin.gridfilter.GridFilterStyles;
 
 
+@CssImport(GridFilterStyles.LOCATION)
 public abstract class FilterComponent<T, C extends Component>
 	extends Composite<C>
 	implements Predicate<T>, FilterComponentSerialization

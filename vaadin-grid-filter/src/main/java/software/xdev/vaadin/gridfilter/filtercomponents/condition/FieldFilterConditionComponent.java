@@ -40,6 +40,7 @@ import software.xdev.vaadin.gridfilter.business.typevaluecomp.TypeValueComponent
 import software.xdev.vaadin.gridfilter.business.value.ValueContainer;
 import software.xdev.vaadin.gridfilter.business.value.reuse.ValueReUseAdapter;
 import software.xdev.vaadin.gridfilter.filtercomponents.FilterComponent;
+import software.xdev.vaadin.gridfilter.filtercomponents.FilterComponentStyles;
 
 
 @SuppressWarnings("java:S1948")
@@ -74,12 +75,19 @@ public class FieldFilterConditionComponent<T> extends FilterComponent<T, Horizon
 		this.cbField.setItemLabelGenerator(FilterableField::name);
 		this.cbField.setItems(filterableFields);
 		this.cbField.addValueChangeListener(ev -> this.onFieldChanged(ev.getValue(), ev.isFromClient()));
+		this.cbField.addClassNames(FilterFieldConditionComponentStyles.CB_FIELD);
 		
 		this.cbOperation.setItemLabelGenerator(Operation::identifier);
 		this.cbOperation.addValueChangeListener(ev -> this.onOperationChanged(ev.getValue(), ev.isFromClient()));
+		this.cbOperation.addClassNames(FilterFieldConditionComponentStyles.CB_OPERATION);
+		
+		this.operationDetailsContainer.addClassNames(FilterFieldConditionComponentStyles.DETAILS);
 		
 		this.getContent().add(this.cbField, this.cbOperation, this.operationDetailsContainer);
 		this.getContent().setAlignItems(FlexComponent.Alignment.BASELINE);
+		this.getContent().addClassNames(
+			FilterComponentStyles.FILTER_COMPONENT,
+			FilterFieldConditionComponentStyles.FILTER_FIELD_CONDITION_COMPONENT);
 	}
 	
 	protected void onFieldChanged(final FilterableField<T, ?> value, final boolean isFromClient)

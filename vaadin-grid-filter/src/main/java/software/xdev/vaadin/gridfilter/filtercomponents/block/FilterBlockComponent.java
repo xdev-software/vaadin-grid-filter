@@ -40,6 +40,7 @@ import software.xdev.vaadin.gridfilter.business.value.reuse.ValueReUseAdapter;
 import software.xdev.vaadin.gridfilter.filtercomponents.FilterBlockComponentSerialization;
 import software.xdev.vaadin.gridfilter.filtercomponents.FilterComponent;
 import software.xdev.vaadin.gridfilter.filtercomponents.FilterComponentSerialization;
+import software.xdev.vaadin.gridfilter.filtercomponents.FilterComponentStyles;
 import software.xdev.vaadin.gridfilter.filtercomponents.FilterComponentSupplier;
 
 
@@ -86,8 +87,7 @@ public class FilterBlockComponent<T>
 		this.maxNestedDepth = maxNestedDepth;
 		
 		final Span spBlockIdentifier = new Span(identifierName);
-		spBlockIdentifier.setMinWidth("2.5em");
-		spBlockIdentifier.getStyle().set("overflow-wrap", "break-word");
+		spBlockIdentifier.addClassNames(FilterBlockComponentStyles.BLOCK_IDENTIFIER);
 		
 		this.filterContainerComponent = new FilterContainerComponent<>(onValueUpdated, true);
 		
@@ -101,9 +101,9 @@ public class FilterBlockComponent<T>
 		
 		this.getContent().setPadding(false);
 		this.getContent().setSpacing(false);
-		this.getStyle().set("background-color", "var(--lumo-contrast-5pct)");
-		this.getStyle().set("padding-left", "var(--lumo-space-xs)");
-		this.getStyle().set("padding-right", "var(--lumo-space-xs)");
+		this.getContent().addClassNames(
+			FilterComponentStyles.FILTER_COMPONENT,
+			FilterBlockComponentStyles.FILTER_BLOCK_COMPONENT);
 	}
 	
 	@SuppressWarnings("java:S1452")

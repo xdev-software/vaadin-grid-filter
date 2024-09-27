@@ -19,12 +19,14 @@ import java.util.function.BiConsumer;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
 import software.xdev.vaadin.gridfilter.filtercomponents.FilterComponent;
 
 
+@CssImport(GridFilterStyles.LOCATION)
 public class FilterComponentWrapper<T> extends HorizontalLayout
 {
 	public FilterComponentWrapper(
@@ -34,12 +36,13 @@ public class FilterComponentWrapper<T> extends HorizontalLayout
 	{
 		final Button btnDelete = new Button(VaadinIcon.TRASH.create(), ev -> onRemove.accept(this, component));
 		btnDelete.addThemeVariants(ButtonVariant.LUMO_ERROR);
-		btnDelete.getStyle().set("margin-left", "var(--lumo-space-s)");
+		btnDelete.addClassNames(GridFilterStyles.FILTER_COMPONENT_WRAPPER_BTN_DELETE);
 		
 		this.add(component, btnDelete);
 		
 		this.setAlignItems(Alignment.CENTER);
 		this.setSpacing(false);
+		this.addClassNames(GridFilterStyles.FILTER_COMPONENT_WRAPPER);
 		
 		if(fullWidth)
 		{

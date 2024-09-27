@@ -20,14 +20,21 @@ import java.util.function.Consumer;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
 import software.xdev.vaadin.gridfilter.filtercomponents.FilterComponentSupplier;
 
 
+@CssImport(GridFilterStyles.LOCATION)
 public class AddFilterComponentsButtons extends HorizontalLayout
 {
+	public AddFilterComponentsButtons()
+	{
+		this.addClassNames(GridFilterStyles.ADD_FILTER_COMPONENTS_BUTTONS);
+	}
+	
 	public void update(
 		final Collection<FilterComponentSupplier> filterComponentSuppliers,
 		final Consumer<FilterComponentSupplier> onAddButtonClicked,
@@ -41,6 +48,7 @@ public class AddFilterComponentsButtons extends HorizontalLayout
 				final Button btn =
 					new Button(s.display(), VaadinIcon.PLUS.create(), ev -> onAddButtonClicked.accept(s));
 				btn.addThemeVariants(ButtonVariant.LUMO_SMALL);
+				btn.addClassNames(GridFilterStyles.ADD_FILTER_COMPONENTS_BUTTONS_BUTTON);
 				return btn;
 			})
 			.forEach(this::add);
