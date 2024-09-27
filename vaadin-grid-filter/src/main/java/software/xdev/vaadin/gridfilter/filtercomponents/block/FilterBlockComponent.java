@@ -65,7 +65,7 @@ public class FilterBlockComponent<T>
 	protected final FilterContainerComponent<T> filterContainerComponent;
 	protected final AddFilterComponentsButtons addFilterComponentButtons = new AddFilterComponentsButtons();
 	
-	@SuppressWarnings("java:S107")
+	@SuppressWarnings({"java:S107", "PMD.ExcessiveParameterList"})
 	public FilterBlockComponent(
 		final GridFilterLocalizationConfig localizationConfig,
 		final List<FilterableField<T, ?>> filterableFields,
