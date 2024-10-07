@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<licensePluginReport goal="FORMAT" timestamp="1728293603689">
-    <module artifactId="vaadin-grid-filter" groupId="software.xdev" version="1.0.0"/>
+<licensePluginReport goal="FORMAT" timestamp="1728299458057">
+    <module artifactId="vaadin-grid-filter" groupId="software.xdev" version="1.0.1"/>
     <files>
         <file path="src/main/java/software/xdev/vaadin/FilterComponent.java" result="NOOP"/>
         <file path="src/main/java/software/xdev/vaadin/builder/CustomizableFilterBuilder.java" result="NOOP"/>
