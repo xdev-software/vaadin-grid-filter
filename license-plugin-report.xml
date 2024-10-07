@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<licensePluginReport goal="FORMAT" timestamp="1728293603689">
+    <module artifactId="vaadin-grid-filter" groupId="software.xdev" version="1.0.0"/>
+    <files>
+        <file path="src/main/java/software/xdev/vaadin/FilterComponent.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/builder/CustomizableFilterBuilder.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/comparators/ContainsComparator.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/comparators/EqualComparator.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/comparators/FilterComparator.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/comparators/GreaterThanComparator.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/comparators/GreaterThanOrEqualsComparator.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/comparators/IsAfterComparator.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/comparators/IsAfterOrEqualsComparator.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/comparators/IsBeforeComparator.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/comparators/IsBeforeOrEqualsComparator.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/comparators/IsBetweenComparator.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/comparators/LessThanComparator.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/comparators/LessThanOrEqualsComparator.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/comparators/NotContainsComparator.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/comparators/NotEqualComparator.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/comparators/utl/DateHelper.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/comparators/utl/IncorrectSearchQueryFormatException.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/comparators/utl/MismatchingTypeException.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/comparators/utl/TypeHelper.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/model/ChipBadge.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/model/ChipBadgeExtension.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/model/FilterCondition.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/model/FilterField.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/model/FilterFieldEnumExtension.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/model/FilterProvider.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/model/SimpleFilterField.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/utl/QueryParameterUtil.java" result="NOOP"/>
+    </files>
+</licensePluginReport>
