@@ -18,6 +18,9 @@ package software.xdev.vaadin.gridfilter.business.value.reuse;
 import software.xdev.vaadin.gridfilter.business.value.ValueContainer;
 
 
+/**
+ * Tries to reuse an existing value when changing between operations
+ */
 public interface ValueReUseAdapter<N extends ValueContainer>
 {
 	Class<N> newValueClass();

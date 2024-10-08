@@ -15,6 +15,9 @@
  */
 package software.xdev.vaadin.gridfilter.business.value;
 
+/**
+ * A value container which can be used for filtering.
+ */
 public interface ValueContainer
 {
 	boolean isValid();

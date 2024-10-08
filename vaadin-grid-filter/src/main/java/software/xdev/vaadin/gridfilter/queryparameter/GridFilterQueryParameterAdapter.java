@@ -29,6 +29,9 @@ import com.vaadin.flow.router.QueryParameters;
 import software.xdev.vaadin.gridfilter.GridFilter;
 
 
+/**
+ * Synchronizes the current filters with query parameters
+ */
 public class GridFilterQueryParameterAdapter
 {
 	protected final GridFilter<?> gridFilter;

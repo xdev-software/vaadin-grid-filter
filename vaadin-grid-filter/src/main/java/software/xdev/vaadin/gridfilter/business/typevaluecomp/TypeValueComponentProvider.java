@@ -20,6 +20,9 @@ import java.util.Set;
 import software.xdev.vaadin.gridfilter.business.value.ValueContainer;
 
 
+/**
+ * Provides components for a {@link ValueContainer} depending on type/class.
+ */
 public interface TypeValueComponentProvider<V extends ValueContainer>
 {
 	Class<?> valueContainerClass();
@@ -45,6 +48,9 @@ public interface TypeValueComponentProvider<V extends ValueContainer>
 		return componentData;
 	}
 	
+	/**
+	 * "Serializes" the current state for query parameters
+	 */
 	String serialize(TypeValueComponentData<V> typeValueComponentData);
 	
 	@SuppressWarnings("unchecked")
@@ -53,6 +59,9 @@ public interface TypeValueComponentProvider<V extends ValueContainer>
 		return this.serialize((TypeValueComponentData<V>)typeValueComponentData);
 	}
 	
+	/**
+	 * Restores the current state from query parameter based input
+	 */
 	void deserializeAndApply(String input, TypeValueComponentData<V> typeValueComponentData);
 	
 	@SuppressWarnings("unchecked")

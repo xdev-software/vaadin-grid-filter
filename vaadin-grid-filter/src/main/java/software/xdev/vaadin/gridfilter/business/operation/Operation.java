@@ -18,10 +18,25 @@ package software.xdev.vaadin.gridfilter.business.operation;
 import software.xdev.vaadin.gridfilter.business.value.ValueContainer;
 
 
+/**
+ * Defines a filter operation that can be applied on a value.
+ * <p>
+ * Examples include {@code =}, {@code <}, {@code >}, is empty, ...
+ * </p>
+ */
 public interface Operation<V extends ValueContainer>
 {
+	/**
+	 * Class of the {@link ValueContainer}
+	 */
 	Class<?> valueContainerClass();
 	
+	/**
+	 * Checks if the value-class is supported.
+	 * <p>
+	 * inputs can be String.class, Double.class and so on
+	 * </p>
+	 */
 	boolean canHandle(Class<?> clazz);
 	
 	String identifier();

@@ -46,11 +46,10 @@ public class AddFilterComponentsButtons extends HorizontalLayout
 		filterComponentSuppliers.stream()
 			.filter(s -> nestedDepth < maxNestedDepth || !s.canCreateNested())
 			.map(s -> {
-				final Button btn =
-					new Button(
-						localizationConfig.getTranslation(s.displayKey(), this),
-						VaadinIcon.PLUS.create(),
-						ev -> onAddButtonClicked.accept(s));
+				final Button btn = new Button(
+					localizationConfig.getTranslation(s.displayKey(), this),
+					VaadinIcon.PLUS.create(),
+					ev -> onAddButtonClicked.accept(s));
 				btn.addThemeVariants(ButtonVariant.LUMO_SMALL);
 				btn.addClassNames(GridFilterStyles.ADD_FILTER_COMPONENTS_BUTTONS_BUTTON);
 				return btn;
