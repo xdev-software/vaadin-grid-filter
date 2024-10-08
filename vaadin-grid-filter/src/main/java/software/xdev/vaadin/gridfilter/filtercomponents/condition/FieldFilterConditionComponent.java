@@ -123,9 +123,9 @@ public class FieldFilterConditionComponent<T> extends FilterComponent<T, Horizon
 				this.refTypeValueComponentData.set(componentData);
 				final Binder<? extends ValueContainer> binder = componentData.binder();
 				
-				// Check if for previous value
+				// Check for previous value
 				optPrevValueContainer.ifPresent(prevValue ->
-					// Check if for matching reuse value adapters
+					// Check for matching reuse value adapters
 					Optional.ofNullable(this.valueReUseAdapters.get(binder.getBean().getClass()))
 						.ifPresent(adapters -> {
 							// Check if any adapter can be applied
