@@ -3,6 +3,7 @@ _Reworked component_
 
 * New customizable UI, including
   * nested filters (AND, OR, NOT)
+    * depth can be limited
   * customizable operations (=,>,<,contains,is empty)
   * support for multiple value types
     * can easily be bound with Vaadin components

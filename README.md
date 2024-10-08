@@ -10,6 +10,17 @@ A customizable Vaadin Flow component for filtering Grids.
 
 ![demo](assets/demo.png)
 
+## Features
+* Customizable and dynamic filter UI
+  * Most common filters, operations and value types are supported out of the box
+  * Nested filters (AND, OR, NOT)
+    * depth can be limited
+  * customizable operations (=,>,<,contains,is empty)
+  * support for multiple value types
+    * can easily be bound with Vaadin components
+* Query parameter support
+* Support for custom translations
+
 ## Usage
 
 Here is a very simple example how the GridFilter can be used:
