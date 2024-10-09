@@ -21,6 +21,9 @@ A customizable Vaadin Flow component for filtering Grids.
 * Query parameter support
 * Support for custom translations
 
+> [!NOTE]
+> If you are looking for a simpler component you may check out our [simple-grid-filter](https://github.com/xdev-software/vaadin-simple-grid-filter).
+
 ## Usage
 
 Here is a very simple example how the GridFilter can be used:
