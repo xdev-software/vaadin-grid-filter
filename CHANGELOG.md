@@ -10,5 +10,7 @@ _Reworked component_
 * Improved support for QueryParameters
 * Better translation support
 
+v1 component can now be found at https://github.com/xdev-software/vaadin-simple-grid-filter
+
 # 1.0.0
 _Initial release_
