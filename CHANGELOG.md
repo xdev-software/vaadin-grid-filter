@@ -1,3 +1,7 @@
+# 2.0.1
+* Make it possible to control how filtering is applied to Grid #32
+* Updated dependencies
+
 # 2.0.0
 _Reworked component_
 
