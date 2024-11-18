@@ -29,7 +29,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.BiConsumer;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import com.vaadin.flow.component.AttachEvent;
@@ -100,6 +102,16 @@ public class GridFilter<T>
 		new FilterContainerComponent<>(this::onFilterUpdate, false);
 	protected final AddFilterComponentsButtons addFilterComponentButtons = new AddFilterComponentsButtons();
 	
+	/**
+	 * A function that defines how the filter is applied to the {@link Grid}.
+	 * <p>
+	 * Please note that the default will only work for {@link com.vaadin.flow.data.provider.ListDataProvider} or
+	 * derivates
+	 * </p>
+	 */
+	protected BiConsumer<Grid<T>, List<FilterComponent<T, ?>>> applyFilter = (gr, components)
+		-> gr.getListDataView().setFilter(item -> components.stream().allMatch(c -> c.test(item)));
+	
 	public GridFilter(final Grid<T> grid)
 	{
 		this.grid = grid;
@@ -110,6 +122,26 @@ public class GridFilter<T>
 		this.setSpacing(false);
 		
 		this.addClassNames(GridFilterStyles.GRID_FILTER);
+	}
+	
+	/**
+	 * @see #applyFilter
+	 */
+	public GridFilter<T> withApplyPredicateFilter(final BiConsumer<Grid<T>, Predicate<T>> applyPredicateFilter)
+	{
+		Objects.requireNonNull(applyPredicateFilter);
+		this.applyFilter = (gr, components)
+			-> applyPredicateFilter.accept(gr, item -> components.stream().allMatch(c -> c.test(item)));
+		return this;
+	}
+	
+	/**
+	 * @see #applyFilter
+	 */
+	public GridFilter<T> withApplyFilter(final BiConsumer<Grid<T>, List<FilterComponent<T, ?>>> applyFilter)
+	{
+		this.applyFilter = Objects.requireNonNull(applyFilter);
+		return this;
 	}
 	
 	@SuppressWarnings("java:S1452")
@@ -130,10 +162,14 @@ public class GridFilter<T>
 	
 	protected void onFilterUpdate()
 	{
-		this.grid.getListDataView().setFilter(item ->
-			this.filterContainerComponent.getFilterComponents().stream().allMatch(c -> c.test(item)));
+		this.applyFilterToGrid();
 		
 		this.fireEvent(new FilterChangedEvent<>(this, false));
+	}
+	
+	protected void applyFilterToGrid()
+	{
+		this.applyFilter.accept(this.grid, this.filterContainerComponent.getFilterComponents());
 	}
 	
 	@SuppressWarnings({"unchecked", "rawtypes"})
