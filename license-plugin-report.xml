@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<licensePluginReport goal="FORMAT" timestamp="1728460096106">
-    <module artifactId="vaadin-grid-filter" groupId="software.xdev" version="2.0.0"/>
+<licensePluginReport goal="FORMAT" timestamp="1731931814132">
+    <module artifactId="vaadin-grid-filter" groupId="software.xdev" version="2.0.1"/>
     <files>
         <file path="src/main/java/software/xdev/vaadin/gridfilter/AddFilterComponentsButtons.java" result="NOOP"/>
         <file path="src/main/java/software/xdev/vaadin/gridfilter/FilterComponentWrapper.java" result="NOOP"/>
