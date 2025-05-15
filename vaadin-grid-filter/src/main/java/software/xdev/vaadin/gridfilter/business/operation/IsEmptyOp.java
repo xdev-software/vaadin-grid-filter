@@ -48,6 +48,8 @@ public class IsEmptyOp implements Operation<NoValue>
 	@Override
 	public boolean test(final Object input, final NoValue filterValue)
 	{
-		return input == null || (input instanceof final String s && s.isEmpty());
+		return input == null
+			|| input instanceof final String s
+			&& s.isEmpty();
 	}
 }
