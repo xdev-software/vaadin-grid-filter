@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<licensePluginReport goal="FORMAT" timestamp="1747741635690">
+    <module artifactId="vaadin-grid-filter" groupId="software.xdev" version="2.0.2"/>
+    <files>
+        <file path="src/main/java/software/xdev/vaadin/gridfilter/AddFilterComponentsButtons.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/gridfilter/FilterComponentWrapper.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/gridfilter/FilterContainerComponent.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/gridfilter/FilterableField.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/gridfilter/GridFilter.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/gridfilter/GridFilterLocalizationConfig.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/gridfilter/GridFilterStyles.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/gridfilter/business/operation/ContainsOp.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/gridfilter/business/operation/EqualsOp.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/gridfilter/business/operation/GreaterThanOp.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/gridfilter/business/operation/IsEmptyOp.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/gridfilter/business/operation/LessThanOp.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/gridfilter/business/operation/Operation.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/gridfilter/business/operation/SingleValueComparableOperation.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/gridfilter/business/operation/SingleValueOperation.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/gridfilter/business/typevaluecomp/DefaultTypeValueComponentProvider.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/gridfilter/business/typevaluecomp/TypeValueComponentData.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/gridfilter/business/typevaluecomp/TypeValueComponentProvider.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/gridfilter/business/typevaluecomp/novalue/NoValueComponentProvider.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/gridfilter/business/typevaluecomp/single/EnumSingleValueComponentProvider.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/gridfilter/business/typevaluecomp/single/SingleValueComponentProvider.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/gridfilter/business/typevaluecomp/single/SingleValueNotRequiredComponentProvider.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/gridfilter/business/value/NoValue.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/gridfilter/business/value/SingleValue.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/gridfilter/business/value/ValueContainer.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/gridfilter/business/value/reuse/SingleValueReUseAdapter.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/gridfilter/business/value/reuse/ValueReUseAdapter.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/gridfilter/filtercomponents/FilterBlockComponentSerialization.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/gridfilter/filtercomponents/FilterComponent.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/gridfilter/filtercomponents/FilterComponentSerialization.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/gridfilter/filtercomponents/FilterComponentStyles.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/gridfilter/filtercomponents/FilterComponentSupplier.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/gridfilter/filtercomponents/block/FilterANDComponentSupplier.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/gridfilter/filtercomponents/block/FilterBlockComponent.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/gridfilter/filtercomponents/block/FilterBlockComponentStyles.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/gridfilter/filtercomponents/block/FilterBlockComponentSupplier.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/gridfilter/filtercomponents/block/FilterNOTComponentSupplier.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/gridfilter/filtercomponents/block/FilterORComponentSupplier.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/gridfilter/filtercomponents/condition/FieldFilterConditionComponent.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/gridfilter/filtercomponents/condition/FieldFilterConditionComponentSupplier.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/gridfilter/filtercomponents/condition/FilterFieldConditionComponentStyles.java" result="NOOP"/>
+        <file path="src/main/java/software/xdev/vaadin/gridfilter/queryparameter/GridFilterQueryParameterAdapter.java" result="NOOP"/>
+    </files>
+</licensePluginReport>
