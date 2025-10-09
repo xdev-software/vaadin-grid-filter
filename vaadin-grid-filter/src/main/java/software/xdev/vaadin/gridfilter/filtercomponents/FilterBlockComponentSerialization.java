@@ -58,6 +58,7 @@ public final class FilterBlockComponentSerialization
 			.ifPresent(fc -> fc.deserializeAndApply(sub)));
 	}
 	
+	@SuppressWarnings("PMD.AvoidStringBuilderOrBuffer")
 	public static List<String> deserializeSubElements(final String content)
 	{
 		final List<String> subElements = new ArrayList<>();
