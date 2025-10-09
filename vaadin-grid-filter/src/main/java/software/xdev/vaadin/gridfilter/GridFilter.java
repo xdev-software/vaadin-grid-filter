@@ -351,6 +351,7 @@ public class GridFilter<T>
 	 * @apiNote This method should not be used if name is dynamic (e.g. translated).<br/>In this case use
 	 * {@link #withFilterableField(String, String, Function, Class)}
 	 */
+	@SuppressWarnings("PMD.AvoidStringBuilderOrBuffer")
 	public <S> GridFilter<T> withFilterableField(
 		final String name,
 		final Function<T, S> keyExtractor,
