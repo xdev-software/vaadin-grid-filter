@@ -52,7 +52,8 @@ A description how to get it running can be found [below](#run-the-demo).
 
 | Vaadin version | Grid-Filter version |
 | --- | --- |
-| Vaadin 24+ (latest) | ``1+`` |
+| Vaadin 25+ (latest) | ``3+`` |
+| Vaadin 24 | ``1-2.x`` |
 
 ### Spring-Boot
 * You may have to include ``software/xdev`` inside [``vaadin.allowed-packages``](https://vaadin.com/docs/latest/integrations/spring/configuration#configure-the-scanning-of-packages)
