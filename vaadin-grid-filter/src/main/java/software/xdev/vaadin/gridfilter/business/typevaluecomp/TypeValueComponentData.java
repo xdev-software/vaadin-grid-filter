@@ -17,7 +17,7 @@ package software.xdev.vaadin.gridfilter.business.typevaluecomp;
 
 import java.util.Objects;
 
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.data.binder.Binder;

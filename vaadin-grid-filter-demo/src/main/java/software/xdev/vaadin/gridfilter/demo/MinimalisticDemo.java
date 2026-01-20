@@ -19,7 +19,7 @@ public class MinimalisticDemo extends AbstractDemo
 		
 		// Add filter inside details block for better looking UI
 		final Details details = new Details("Filter data");
-		details.addThemeVariants(DetailsVariant.FILLED);
+		details.addThemeVariants(DetailsVariant.LUMO_FILLED);
 		details.add(filter);
 		details.setOpened(true);
 		this.add(details, this.grid);
