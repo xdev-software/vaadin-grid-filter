@@ -1,0 +1,14 @@
+.grid-filter-filter-block-comp {
+    background-color: var(--lumo-contrast-5pct);
+    padding-left: var(--lumo-space-xs);
+    padding-right: var(--lumo-space-xs);
+}
+
+.grid-filter-filter-block-comp-identifier {
+    min-width: 2.5em;
+    overflow-wrap: break-word;
+}
+
+.grid-filter-filter-comp-wrapper-btn-delete {
+    margin-left: var(--lumo-space-s);
+}
