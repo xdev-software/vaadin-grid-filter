@@ -13,6 +13,7 @@ import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
+import software.xdev.vaadin.gridfilter.demo.CustomTypeDemo;
 import software.xdev.vaadin.gridfilter.demo.LocalizationDemo;
 import software.xdev.vaadin.gridfilter.demo.MaxNestedDepthDemo;
 import software.xdev.vaadin.gridfilter.demo.MinimalisticDemo;
@@ -71,6 +72,11 @@ public class DemoView extends Composite<VerticalLayout>
 				LocalizationDemo.NAV,
 				"Localization",
 				"Showcases how localization can be done (UI in German)"
+			),
+			new Example(
+				CustomTypeDemo.NAV,
+				"Custom type",
+				"Shows how a custom type can be handled"
 			)
 		));
 	}

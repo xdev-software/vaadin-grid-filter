@@ -1,3 +1,7 @@
+# 3.1.0
+* Added `is not empty`
+* Added a demo to show how custom type handling can be done
+
 # 3.0.0
 * Updated to Vaadin 25
 
