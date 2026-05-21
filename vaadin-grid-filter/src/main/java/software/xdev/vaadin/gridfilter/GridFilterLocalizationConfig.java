@@ -34,6 +34,7 @@ public class GridFilterLocalizationConfig
 	public static final String OP_GREATER_THAN = PREFIX_OP + "gt";
 	public static final String OP_LESS_THAN = PREFIX_OP + "lt";
 	public static final String OP_IS_EMPTY = PREFIX_OP + "empty";
+	public static final String OP_IS_NOT_EMPTY = PREFIX_OP + "not_empty";
 	
 	public static final String PREFIX_BLOCK = PREFIX + "block.";
 	public static final String BLOCK_OR = PREFIX_BLOCK + "or";
@@ -49,6 +50,7 @@ public class GridFilterLocalizationConfig
 		entry(OP_GREATER_THAN, ">"),
 		entry(OP_LESS_THAN, "<"),
 		entry(OP_IS_EMPTY, "is empty"),
+		entry(OP_IS_NOT_EMPTY, "is not empty"),
 		// Block
 		entry(BLOCK_OR, "OR"),
 		entry(BLOCK_AND, "AND"),

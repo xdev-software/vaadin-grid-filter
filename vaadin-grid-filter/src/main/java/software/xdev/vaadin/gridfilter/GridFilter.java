@@ -54,6 +54,7 @@ import software.xdev.vaadin.gridfilter.business.operation.ContainsOp;
 import software.xdev.vaadin.gridfilter.business.operation.EqualsOp;
 import software.xdev.vaadin.gridfilter.business.operation.GreaterThanOp;
 import software.xdev.vaadin.gridfilter.business.operation.IsEmptyOp;
+import software.xdev.vaadin.gridfilter.business.operation.IsNotEmptyOp;
 import software.xdev.vaadin.gridfilter.business.operation.LessThanOp;
 import software.xdev.vaadin.gridfilter.business.operation.Operation;
 import software.xdev.vaadin.gridfilter.business.typevaluecomp.TypeValueComponentProvider;
@@ -406,7 +407,8 @@ public class GridFilter<T>
 				new GreaterThanOp(),
 				new LessThanOp(),
 				new ContainsOp(),
-				new IsEmptyOp()
+				new IsEmptyOp(),
+				new IsNotEmptyOp()
 			))
 			.addTypeValueComponents(List.of(
 				new NoValueComponentProvider(),
