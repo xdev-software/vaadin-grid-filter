@@ -37,6 +37,12 @@ public class EqualsOp extends SingleValueOperation<Object>
 	@Override
 	public boolean test(final Object input, final SingleValue<Object> filterValue)
 	{
+		if(input instanceof final String inputString
+			&& filterValue.getValue() instanceof final String filterValueString)
+		{
+			return inputString.equalsIgnoreCase(filterValueString);
+		}
+		
 		return Objects.equals(input, filterValue.getValue());
 	}
 	
