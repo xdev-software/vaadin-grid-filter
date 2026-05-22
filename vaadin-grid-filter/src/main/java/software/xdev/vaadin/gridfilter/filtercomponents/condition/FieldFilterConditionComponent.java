@@ -86,7 +86,7 @@ public class FieldFilterConditionComponent<T> extends FilterComponent<T, Horizon
 		this.operationDetailsContainer.addClassNames(FilterFieldConditionComponentStyles.DETAILS);
 		
 		this.getContent().add(this.cbField, this.cbOperation, this.operationDetailsContainer);
-		this.getContent().setAlignItems(FlexComponent.Alignment.BASELINE);
+		this.getContent().setAlignItems(FlexComponent.Alignment.CENTER);
 		this.getContent().addClassNames(
 			FilterComponentStyles.FILTER_COMPONENT,
 			FilterFieldConditionComponentStyles.FILTER_FIELD_CONDITION_COMPONENT);

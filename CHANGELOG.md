@@ -1,3 +1,7 @@
+# 4.0.1
+* String are now matched NOT case-sensitive
+* Search bar now uses lazy value change mode
+
 # 4.0.0
 * Added new component `GridFilterWithSearchBar`
     * Has a search bar for quick searching of strings

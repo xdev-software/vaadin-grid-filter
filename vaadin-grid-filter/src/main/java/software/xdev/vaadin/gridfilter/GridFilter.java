@@ -181,7 +181,7 @@ public class GridFilter<T>
 		this.fireEvent(new FilterChangedEvent<>(this, false));
 	}
 	
-	protected void applyFilterToGrid()
+	public void applyFilterToGrid()
 	{
 		this.applyFilter.accept(this.grid, this.filterContainerComponent.getFilterComponents());
 	}

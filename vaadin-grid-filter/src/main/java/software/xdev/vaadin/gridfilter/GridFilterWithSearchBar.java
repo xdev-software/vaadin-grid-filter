@@ -18,6 +18,7 @@ package software.xdev.vaadin.gridfilter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
@@ -27,6 +28,7 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.value.ValueChangeMode;
 
 
 public class GridFilterWithSearchBar<T> extends GridFilter<T>
@@ -56,11 +58,11 @@ public class GridFilterWithSearchBar<T> extends GridFilter<T>
 		
 		this.withApplyFilter((gr, components) -> {
 			
-			final String searchBarValue = this.txtSearchBar.getValue();
-			final boolean hasSearchBarValue = searchBarValue != null && !searchBarValue.isEmpty();
+			final Optional<String> optSearchBarValue = this.getSearchBarValue()
+				.map(s -> s.toLowerCase(Locale.ROOT));
 			
 			gr.getListDataView().setFilter(item ->
-				(!hasSearchBarValue || this.doesItemMatchAnySearchBarExtracted(item, searchBarValue))
+				optSearchBarValue.map(v -> this.doesItemMatchAnySearchBarExtracted(item, v)).orElse(true)
 					&& components.stream().allMatch(c -> c.test(item)));
 		});
 		
@@ -85,6 +87,7 @@ public class GridFilterWithSearchBar<T> extends GridFilter<T>
 	protected void initSearchBar(final boolean hideDetailsFilterInitially)
 	{
 		this.txtSearchBar.setPlaceholder("Search...");
+		this.txtSearchBar.setValueChangeMode(ValueChangeMode.LAZY);
 		this.txtSearchBar.setWidthFull();
 		this.txtSearchBar.addValueChangeListener(ev -> this.onFilterUpdate());
 		
@@ -116,6 +119,7 @@ public class GridFilterWithSearchBar<T> extends GridFilter<T>
 		return this.searchBarValueExtractors.stream()
 			.map(func -> func.apply(item))
 			.filter(Objects::nonNull)
+			.map(s -> s.toLowerCase(Locale.ROOT))
 			.anyMatch(s -> s.contains(value));
 	}
 	
