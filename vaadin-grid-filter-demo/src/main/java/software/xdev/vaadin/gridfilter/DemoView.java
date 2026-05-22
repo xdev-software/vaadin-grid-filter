@@ -18,6 +18,7 @@ import software.xdev.vaadin.gridfilter.demo.LocalizationDemo;
 import software.xdev.vaadin.gridfilter.demo.MaxNestedDepthDemo;
 import software.xdev.vaadin.gridfilter.demo.MinimalisticDemo;
 import software.xdev.vaadin.gridfilter.demo.QueryParameterDemo;
+import software.xdev.vaadin.gridfilter.demo.SearchBarDemo;
 
 
 @PageTitle("Grid Filter demos")
@@ -77,6 +78,11 @@ public class DemoView extends Composite<VerticalLayout>
 				CustomTypeDemo.NAV,
 				"Custom type",
 				"Shows how a custom type can be handled"
+			),
+			new Example(
+				SearchBarDemo.NAV,
+				"SearchBar",
+				"Showcases the 'GridFilter with a searchbar'-variant"
 			)
 		));
 	}

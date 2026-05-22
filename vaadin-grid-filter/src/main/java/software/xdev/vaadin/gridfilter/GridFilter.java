@@ -115,8 +115,21 @@ public class GridFilter<T>
 	
 	public GridFilter(final Grid<T> grid)
 	{
+		this(grid, true);
+	}
+	
+	protected GridFilter(final Grid<T> grid, final boolean initUI)
+	{
 		this.grid = grid;
 		
+		if(initUI)
+		{
+			this.initUI();
+		}
+	}
+	
+	protected void initUI()
+	{
 		this.add(this.filterContainerComponent, this.addFilterComponentButtons);
 		
 		this.setPadding(false);
@@ -399,10 +412,9 @@ public class GridFilter<T>
 	
 	// endregion
 	
-	public static <T> GridFilter<T> createDefault(final Grid<T> grid)
+	public static <C extends GridFilter<?>> C applyDefault(final C gridFilter)
 	{
-		return new GridFilter<>(grid)
-			.addOperations(List.of(
+		gridFilter.addOperations(List.of(
 				new EqualsOp(),
 				new GreaterThanOp(),
 				new LessThanOp(),
@@ -453,5 +465,11 @@ public class GridFilter<T>
 				new FilterORComponentSupplier(),
 				new FilterANDComponentSupplier(),
 				new FilterNOTComponentSupplier()));
+		return gridFilter;
+	}
+	
+	public static <T> GridFilter<T> createDefault(final Grid<T> grid)
+	{
+		return applyDefault(new GridFilter<>(grid));
 	}
 }

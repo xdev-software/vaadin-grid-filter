@@ -1,3 +1,10 @@
+# 4.0.0
+* Added new component `GridFilterWithSearchBar`
+    * Has a search bar for quick searching of strings
+    * The detailed filters are not extended by default
+    * A corresponding QueryParameterAdapter exists
+* Updated demo
+
 # 3.1.0
 * Added `is not empty`
 * Added a demo to show how custom type handling can be done

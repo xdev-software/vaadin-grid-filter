@@ -1,8 +1,6 @@
 package software.xdev.vaadin.gridfilter.demo;
 
 import com.vaadin.flow.component.combobox.ComboBox;
-import com.vaadin.flow.component.details.Details;
-import com.vaadin.flow.component.details.DetailsVariant;
 import com.vaadin.flow.router.Route;
 
 import software.xdev.vaadin.gridfilter.GridFilter;
@@ -32,11 +30,6 @@ public class CustomTypeDemo extends AbstractDemo
 			))
 			.withFilterableField("City", Person::city, City.class);
 		
-		// Add filter inside details block for better looking UI
-		final Details details = new Details("Filter data");
-		details.addThemeVariants(DetailsVariant.LUMO_FILLED);
-		details.add(filter);
-		details.setOpened(true);
-		this.add(details, this.grid);
+		this.add(filter, this.grid);
 	}
 }
