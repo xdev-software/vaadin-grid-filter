@@ -7,8 +7,6 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 
-import org.jspecify.annotations.NonNull;
-
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -98,7 +96,7 @@ public class GridFilterWithSearchBar<T> extends GridFilter<T>
 		this.addFilterComponentButtons.setVisible(visible);
 	}
 	
-	protected boolean doesItemMatchAnySearchBarExtracted(final T item, @NonNull final String value)
+	protected boolean doesItemMatchAnySearchBarExtracted(final T item, final String value)
 	{
 		return this.searchBarValueExtractors.stream()
 			.map(func -> func.apply(item))
