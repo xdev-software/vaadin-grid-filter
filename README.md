@@ -14,7 +14,7 @@ A customizable Vaadin Flow component for filtering Grids.
   * Most common filters, operations and value types are supported out of the box
   * Nested filters (AND, OR, NOT)
     * depth can be limited
-  * customizable operations (=,>,<,contains,is empty)
+  * customizable operations (=,>,<,contains,is empty, is not empty)
   * support for multiple value types
     * can easily be bound with Vaadin components
 * Query parameter support
