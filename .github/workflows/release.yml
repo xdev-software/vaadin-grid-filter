@@ -36,7 +36,7 @@ jobs:
           ${{ runner.os }}-mvn-build-
 
     - name: Build with Maven
-      run: ./mvnw -B clean package -Pproduction -T2C
+      run: ./mvnw -B clean package -T2C
       
     - name: Check for uncommited changes
       run: |
