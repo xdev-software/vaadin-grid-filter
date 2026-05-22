@@ -17,12 +17,18 @@ public class AbstractDemo extends VerticalLayout
 	
 	protected GridFilter<Person> createDefaultFilter()
 	{
-		return GridFilter.createDefault(this.grid)
+		return this.applyDefault(GridFilter.createDefault(this.grid));
+	}
+	
+	protected <C extends GridFilter<Person>> C applyDefault(final C gridFilter)
+	{
+		gridFilter
 			.withFilterableField("ID", Person::id, Integer.class)
 			.withFilterableField("First Name", Person::firstName, String.class)
 			.withFilterableField("Birthday", Person::birthday, LocalDate.class)
 			.withFilterableField("Married", Person::married, Boolean.class)
 			.withFilterableField("Department", Person::department, Department.class);
+		return gridFilter;
 	}
 	
 	@Override
