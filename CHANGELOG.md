@@ -1,3 +1,8 @@
+# 4.0.2
+* Update to Vaadin 25.2
+* Migrated resources from deprecated location
+* Updated dependencies
+
 # 4.0.1
 * String are now matched NOT case-sensitive
 * Search bar now uses lazy value change mode
